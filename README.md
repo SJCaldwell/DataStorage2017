@@ -1,37 +1,28 @@
-# README
+# rivalsfor.life 
 
-Create a branch of this repo for your project.
+Built to answer the question: How strong am I?
 
-Replace this README with an introduction to your project, including instructions for how to view the deployed web page and requirements for building it.
+rivalsfor.life let's you input your personal stats and lifts to come up with your ideal powerlifting *rival*. Someone stronger than you who functions as a benchmark for you to strive toward. The powerlifter is chosen from a database containing data on over 7,000 real meets. It provides the user a dashboard and as their lifts improve, they eventually reach and exceed the lifts of their chosen rival. From there, they can gain a new rival even stronger than their last. It's a great way to get motivate yourself to keep training even if you're not the type to go to meets!
 
-You may use this space for a full description of your questions and results, or you may point to other documents, including your web page.
+## Specs
 
-# Project
+This project was built using the [flask][flaskurl] web framework and the open-source [PostgreSQL][postgresqlurl] database. Hosting and continous deployment is done using [Heroku][herokuurl].
 
-Pick a data set, and ask some questions about it. To explore your questions, build a web app with Python and PostgreSQL which exposes views of the data in tables, forms for entering queries, and/or graphs and other visualizations.
+[flaskurl]: http://flask.pocoo.org/ 
+[postgresqlurl]: https://www.postgresql.org/
+[herokuurl]: https://www.postgresql.org/
+## Project
+This project was done using data provided by [OpenPowerLifting][openpowerliftingurl]. The data contains over 7,000 powerlifting meets and all the athletes participating in each, as well as the weight they competed at and their best weight for each the "big three" lifts (Benchpress, Squat, Deadlift). 
 
-Project teams are posted here.
+[openpowerliftingurl]: http://www.openpowerlifting.org/
 
-For ideas you can go to
+## The Team
 
-- [kaggle](https://www.kaggle.com/datasets)
-- [Yelp](https://www.yelp.com/dataset)
-- [FRED](https://fred.stlouisfed.org/)
-- Etc.
+This project is being done by Shane Caldwell, Saad Usmani, and Michael McCormak (sp?).
 
-# Teams
+## Requirements 
 
-This is a team assignment. See the Project Teams spreadsheet in the General module for your teammate. This is Project 1.
-
-Please submit a peer review to Canvas. It should be a short sentence about your own contribution and your partner's contribution in each of the following areas:
-
-- availability and commitment to meeting
-- communication
-- relevant technical skill
-- willingness to work 
-  
-
- 
+Python packages required are stored in requirements.txt 
 
  
 
