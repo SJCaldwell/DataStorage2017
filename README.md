@@ -10,7 +10,7 @@ This project was built using the [flask][flaskurl] web framework and the open-so
 
 [flaskurl]: http://flask.pocoo.org/ 
 [postgresqlurl]: https://www.postgresql.org/
-[herokuurl]: https://www.postgresql.org/
+[herokuurl]: https://www.heroku.com/ 
 ## Project
 This project was done using data provided by [OpenPowerLifting][openpowerliftingurl]. The data contains over 7,000 powerlifting meets and all the athletes participating in each, as well as the weight they competed at and their best weight for each the "big three" lifts (Benchpress, Squat, Deadlift). 
 
