@@ -10,6 +10,7 @@ setup(
   license="MIT", 
   long_description=open('README.MD').read(),
   install_requires=[
-	"flask==0.12.2"
+	"flask==0.12.2",
+	"sqlalchemy==1.1.14"
   ],
 )
