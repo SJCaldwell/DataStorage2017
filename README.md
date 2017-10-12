@@ -18,9 +18,11 @@ This project was done using data provided by [OpenPowerLifting][openpowerlifting
 
 ## The Team
 
-This project is being done by [@SJCaldwell][sjcaldwell_github], Saad Usmani, and Michael McCormak (sp?).
+This project is being done by [@SJCaldwell][sjcaldwell_github], [@saad-usmani][saad_github], and [@mikejt33][mike_github].
 
 [sjcaldwell_github]: https://github.com/SJCaldwell
+[saad_github]: https://github.com/saad-usmani
+[mike_github]: https://github.com/mikejt33
 
 ## Requirements 
 
