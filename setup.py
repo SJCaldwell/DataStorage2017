@@ -11,6 +11,7 @@ setup(
   long_description=open('README.MD').read(),
   install_requires=[
 	"flask==0.12.2",
-	"sqlalchemy==1.1.14"
+	"sqlalchemy==1.1.14",
+	"psycopg2==2.7.3.1"
   ],
 )
