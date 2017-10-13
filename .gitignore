@@ -2,3 +2,4 @@ saltysplatoon/
 dist/
 SaltySplatoon.egg-info
 .DS_Store
+secret.config
