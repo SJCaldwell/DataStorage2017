@@ -11,7 +11,7 @@ CREATE TABLE meets(
 
 CREATE TABLE athletes(
     id SERIAL PRIMARY KEY,
-    name varchar(30),
+    name varchar(50),
     gender varchar(9)
 );
 
