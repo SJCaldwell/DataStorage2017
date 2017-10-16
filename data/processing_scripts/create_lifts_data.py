@@ -15,8 +15,11 @@ with open("../raw/openpowerlifting.csv") as rawfile:
     reader = csv.reader(rawfile, delimiter = ',')
     next(reader) #skip header row
     for row in reader:
-        lifts.append([str(num_lifts), row[0],str(athletes[row[1]]), row[3], row[4], row[5], row[6], row[7], row[9], row[11], row[13], '']) 
-        num_lifts +=1
+        if int(row[0]) >= 7658:
+            pass
+        else:
+            lifts.append([str(num_lifts), row[0],str(athletes[row[1]]), row[3], row[4], row[5], row[6], row[7], row[9], row[11], row[13], row[14], '']) 
+            num_lifts +=1
 
 with open('../clean/athlete_lifts.csv', 'w') as csvfile:
     writer = csv.writer(csvfile, delimiter = ',')
