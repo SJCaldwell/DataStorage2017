@@ -24,8 +24,8 @@ class athletes(db.model):
 
 class athlete_lifts(db.model):
 	lift_id = db.Column(db.Integer, primary_key = True)
-	meet_id = db.Column(db.Integer)
-	athlete_id = db.Column(db.Integer)
+	meet_id = db.Column(db.Integer, db.ForeignKey('meets.id'))
+	athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'))
 	equipment = db.Column(db.String(15))
 	age = db.Column(db.Float) 
 	division = db.Column(db.String(50))
@@ -42,7 +42,7 @@ class athlete_lifts(db.model):
 
 
 class user_lifts(db.model):
-	user_id = db.Column(db.Integer)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	age = db.Column(db.Integer)
 	date = db.Column(db.Date)
 	bodyweight_kg = db.Column(db.Float)
@@ -60,7 +60,7 @@ class users(db.model):
 	username = db.Column(db.String(20)) 
 	password = db.Column(db.String(256))
 	age = db.Column(db.Integer)
-	current_rival = db.Column(db.Integer) 
+	current_rival = db.Column(db.Integer, db.ForeignKey('athletes.id')) 
 	beaten_rivals = db.Column(db.Integer)
 
 	def __repr__(self):
