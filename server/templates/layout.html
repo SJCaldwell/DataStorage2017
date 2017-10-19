@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Salty Splatoon</title>
+    <meta charset="utf-8">
+    <meta name="description" content="How tough are ya?">
+    <meta name="author" content="Shane Caldwell">
+     <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/boostrap.js"></script>
+	<script
+  		src="https://code.jquery.com/jquery-3.2.1.js"
+  		integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  		crossorigin="anonymous"></script>
+  	<link rel="shortcut icon" href="../static/img/favicon.ico">
+
+ </head>
+    <body style = "height:1500px">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+                <a class="navbar-brand" href="/">SaltySplatoon</a>
+          </div>
+            <ul class="nav navbar-nav navbar-right">
+          {% if session.username %}
+          <li><a href = "{{ url_for('greetings', username=session.username) }}">{{ session.username }}</a></li>
+          {% endif %}
+          {% if not session.username %}
+          <li> <a href="{{ url_for('greetings') }}">Register</a></li>
+          <li> <a href="{{ url_for('greetings') }}">Login</a></li>
+          {% else %}
+          <!-- Put the other logged in specific stuff here -->
+          <li> <a href="{{ url_for('greetings') }}">Logout</a></li>
+        {% endif %}
+            </ul>
+          </div><!--/.nav-collapse -->
+      </nav>
+</body>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block body %}{% endblock %}
