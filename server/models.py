@@ -1,7 +1,7 @@
 from saltysplatoon import db
 
 
-class meets(db.model):
+class Meets(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	federation = db.Column(db.Text)
 	path = db.Column(db.Text) 
@@ -14,7 +14,7 @@ class meets(db.model):
 	def __repr__(self):
 		return('<Meet %r>' % self.name)
 
-class athletes(db.model):
+class Athletes(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(50))
 	gender = db.Column(db.String(8))
@@ -22,10 +22,10 @@ class athletes(db.model):
 	def __repr__(self):
 		return('<Athlete %r>' % self.name)
 
-class athlete_lifts(db.model):
+class Athlete_lifts(db.Model):
 	lift_id = db.Column(db.Integer, primary_key = True)
-	meet_id = db.Column(db.Integer, db.ForeignKey('meets.id'))
-	athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'))
+	meet_id = db.Column(db.Integer, db.ForeignKey('Meets.id'))
+	athlete_id = db.Column(db.Integer, db.ForeignKey('Athletes.id'))
 	equipment = db.Column(db.String(15))
 	age = db.Column(db.Float) 
 	division = db.Column(db.String(50))
@@ -41,8 +41,9 @@ class athlete_lifts(db.model):
 		return('<Athlete lift %d>' % self.lift_id)
 
 
-class user_lifts(db.model):
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+class User_lifts(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
 	age = db.Column(db.Integer)
 	date = db.Column(db.Date)
 	bodyweight_kg = db.Column(db.Float)
@@ -55,12 +56,12 @@ class user_lifts(db.model):
 	def __repr__(self):
 		return('<User lifts %r' % self.user_id)
 
-class users(db.model):
+class Users(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	username = db.Column(db.String(20)) 
 	password = db.Column(db.String(256))
 	age = db.Column(db.Integer)
-	current_rival = db.Column(db.Integer, db.ForeignKey('athletes.id')) 
+	current_rival = db.Column(db.Integer, db.ForeignKey('Athletes.id')) 
 	beaten_rivals = db.Column(db.Integer)
 
 	def __repr__(self):
