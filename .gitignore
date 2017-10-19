@@ -4,3 +4,4 @@ SaltySplatoon.egg-info
 .DS_Store
 secret.config
 *.icloud
+__pycache__
