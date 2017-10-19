@@ -12,6 +12,7 @@ setup(
   install_requires=[
 	"flask==0.12.2",
 	"sqlalchemy==1.1.14",
-	"psycopg2==2.7.3.1"
+	"psycopg2==2.7.3.1",
+	"flask-sqlalchemy==2.3.2",
   ],
 )
