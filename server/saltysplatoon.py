@@ -37,8 +37,21 @@ def grab_rivals():
 	weight = request.form['weight']
 	is_pounds = request.form['is_pounds']
 
+@app.route("/register", methods = ['GET', 'POST'])
+def register():
+	if request.method == 'GET':
+		return render_template("register.html")
+	user = User(request.form['username'], request.form['password'], request.form['age'])
+	db.session.add(user)
+	db.session.commit()
+	flash('Registration was successful!')
+	return redirect(url_for('login'))
 
-	
+@app.route("/login", methods = ['GET', 'POST'])
+def login():
+	if request.method == 'GET':
+		return render_template("login.html")
+	return redirect(url_for("index"))
 		
 if __name__ == "__main__":
 	app.debug = True
