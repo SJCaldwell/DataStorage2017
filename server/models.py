@@ -1,4 +1,4 @@
-from saltysplatoon import db, Bcrypt
+from saltysplatoon import db, bcrypt
 
 
 class Meets(db.Model):
@@ -24,8 +24,8 @@ class Athletes(db.Model):
 
 class Athlete_lifts(db.Model):
 	lift_id = db.Column(db.Integer, primary_key = True)
-	meet_id = db.Column(db.Integer, db.ForeignKey('Meets.id'))
-	athlete_id = db.Column(db.Integer, db.ForeignKey('Athletes.id'))
+	meet_id = db.Column(db.Integer, db.ForeignKey('meets.id'))
+	athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'))
 	equipment = db.Column(db.String(15))
 	age = db.Column(db.Float) 
 	division = db.Column(db.String(50))
@@ -43,7 +43,7 @@ class Athlete_lifts(db.Model):
 
 class User_lifts(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	age = db.Column(db.Integer)
 	date = db.Column(db.Date)
 	bodyweight_kg = db.Column(db.Float)
@@ -61,7 +61,7 @@ class Users(db.Model):
 	username = db.Column(db.String(20)) 
 	password = db.Column(db.String(256))
 	age = db.Column(db.Integer)
-	current_rival = db.Column(db.Integer, db.ForeignKey('Athletes.id')) 
+	current_rival = db.Column(db.Integer, db.ForeignKey('athletes.id')) 
 	beaten_rivals = db.Column(db.Integer)
 
 	def __init__(self, username, password, age):
