@@ -1,10 +1,10 @@
 import flask
-from flask import render_template, request
+from flask import render_template, request, flash, session, url_for, redirect
 import json
 from flask_sqlalchemy import SQLAlchemy
 from models import *
 from flask_bcrypt import Bcrypt
-from flask_login import LoginManager
+from flask_login import LoginManager, logout_user, current_user, login_required
 
 def grab_db_uri():
 	with open("../secret.config") as secrets_file:
