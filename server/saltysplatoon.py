@@ -4,6 +4,7 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from models import *
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 def grab_db_uri():
 	with open("../secret.config") as secrets_file:
@@ -16,6 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = grab_db_uri()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Examine results of this choice, currently just disabling the warning
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 @app.route("/")
 def greetings():
