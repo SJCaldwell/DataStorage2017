@@ -14,5 +14,6 @@ setup(
 	"sqlalchemy==1.1.14",
 	"psycopg2==2.7.3.1",
 	"flask-sqlalchemy==2.3.2",
+	"flask-bcrypt==0.7.1",
   ],
 )

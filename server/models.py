@@ -1,4 +1,4 @@
-from saltysplatoon import db
+from saltysplatoon import db, Bcrypt
 
 
 class Meets(db.Model):
@@ -66,3 +66,8 @@ class Users(db.Model):
 
 	def __repr__(self):
 		return ('<User %r>' % self.username)
+
+	def __init__(self, username, password, age):
+		self.username = username
+		self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+		self.age = age
