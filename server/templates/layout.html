@@ -25,8 +25,8 @@
           <li><a href = "{{ url_for('greetings', username=session.username) }}">{{ session.username }}</a></li>
           {% endif %}
           {% if not session.username %}
-          <li> <a href="{{ url_for('greetings') }}">Register</a></li>
-          <li> <a href="{{ url_for('greetings') }}">Login</a></li>
+          <li> <a href="{{ url_for('register') }}">Register</a></li>
+          <li> <a href="{{ url_for('login') }}">Login</a></li>
           {% else %}
           <!-- Put the other logged in specific stuff here -->
           <li> <a href="{{ url_for('greetings') }}">Logout</a></li>

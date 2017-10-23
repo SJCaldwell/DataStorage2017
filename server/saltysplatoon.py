@@ -1,5 +1,5 @@
 import flask
-from flask import render_template
+from flask import render_template, request
 import json
 from flask_sqlalchemy import SQLAlchemy
 from models import *
@@ -52,7 +52,7 @@ def login():
 	if request.method == 'GET':
 		return render_template("login.html")
 	return redirect(url_for("index"))
-		
+
 if __name__ == "__main__":
 	app.debug = True
 	app.run()
