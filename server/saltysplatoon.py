@@ -74,7 +74,14 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index')) 
+    return redirect(url_for('greetings'))
+
+
+@app.route("/profile")
+@login_required
+def profile():
+	print("loading")
+	return render_template("profile.html", username = current_user.username)
 
 if __name__ == "__main__":
 	app.debug = True
