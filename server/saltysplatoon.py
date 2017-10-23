@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import *
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from helpers import pounds_to_kilos, kilos_to_pounds
 
 def grab_db_uri():
 	with open("../secret.config") as secrets_file:
@@ -80,9 +81,35 @@ def logout():
 @app.route("/profile")
 @login_required
 def profile():
-	print("loading")
 	return render_template("profile.html", username = current_user.username)
 
+@app.route("/rival")
+@login_required
+def rival():
+	if request.method == 'GET':
+		return render_template("rival.html")
+	bw = request.form['weight']
+	is_lbs = request.form['is_lbs']
+	deadlift = request.form['deadlift']
+	squat = request.form['squat']
+	bench = request.form['bench']
+	age = request.form['age']
+	if is_lbs:
+		bw = pounds_to_kilos(bw)
+		deadlift = pounds_to_kilos(deadlift)
+		squat = pounds_to_kilos(squat)
+		bench = pounds_to_kilos(bench)
+	#processing rivals
+	if is_lbs:
+		#convert back to lbs
+		bw = kilos_to_pounds(bw)
+
+@app.route("/athletes")
+@login_required
+def athletes():
+	athletes_page = Athletes.query.order_by(Athletes.id).paginate(page = 1, per_page=20)
+	return render_template("athletes.html", athletes=athletes_page.items)
+	
 if __name__ == "__main__":
 	app.debug = True
 	with open("../secret.config") as secrets_file:
