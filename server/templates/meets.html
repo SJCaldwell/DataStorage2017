@@ -5,9 +5,9 @@
 <br>
 <div class="container">
   <form action="" method=post class="form-horizontal">
-    <h2>Athletes</h2>
-    {% for x in athletes %}
-    <li> {{ x.id }} , {{x.name}} , {{x.gender}} </li>
+    <h2>Meets</h2>
+    {% for x in meets %}
+    <li> {{ x.id }} , {{x.federation}} , {{x.path}} , {{x.date}} {{x.name}} </li>
   {% endfor %}
 </div>
 {% endblock %}

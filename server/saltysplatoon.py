@@ -109,7 +109,13 @@ def rival():
 def athletes():
 	athletes_page = Athletes.query.order_by(Athletes.id).paginate(page = 1, per_page=20)
 	return render_template("athletes.html", athletes=athletes_page.items)
-	
+
+@app.route("/meets")
+@login_required
+def meets():
+	meets_page = Meets.query.order_by(Meets.id).paginate(page = 1, per_page = 20)
+	return render_template("meets.html", meets = meets_page.items)
+
 if __name__ == "__main__":
 	app.debug = True
 	with open("../secret.config") as secrets_file:
