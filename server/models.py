@@ -64,10 +64,22 @@ class Users(db.Model):
 	current_rival = db.Column(db.Integer, db.ForeignKey('Athletes.id')) 
 	beaten_rivals = db.Column(db.Integer)
 
-	def __repr__(self):
-		return ('<User %r>' % self.username)
-
 	def __init__(self, username, password, age):
 		self.username = username
 		self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 		self.age = age
+	
+	def __repr__(self):
+		return ('<User %r>' % self.username)
+
+	def is_authenticated(self):
+		return True
+
+	def is_active(self):
+		return True
+
+	def is_anonymous(self):
+		return False
+
+	def get_id(self):
+		return self.id
