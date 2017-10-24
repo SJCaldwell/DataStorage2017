@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+<br>
+<br>
+<br>
+<div class="container">
+  <form action="" method=post class="form-horizontal">
+    <h2>Athletes</h2>
+    {% for x in best_lifts %}
+    <li> {{ x.id }} , {{x.name}} , {{x.gender}} </li>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -28,8 +28,6 @@ def load_user(id):
 
 @app.route("/")
 def greetings():
-	check = Meets.query.filter_by(id=3).first()
-	print(check)
 	return render_template("index.html")
 
 @app.route("/grab_rivals", methods = ['POST'])
