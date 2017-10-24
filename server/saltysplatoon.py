@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import *
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from helpers import pounds_to_kilos, kilos_to_pounds
+from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements
 
 def grab_db_uri():
 	with open("../secret.config") as secrets_file:
@@ -47,11 +47,15 @@ def register():
 	if registered_user:
 		flash('Username was already taken. Please choose another!', 'error')
 		return redirect(url_for('register'))
-	user = Users(request.form['username'], request.form['password'], request.form['age'])
-	db.session.add(user)
-	db.session.commit()
-	flash('Registration was successful!')
-	return redirect(url_for('login'))
+	if meets_password_complexity_requirements(request.form['password']):
+		user = Users(request.form['username'], request.form['password'], request.form['age'])
+		db.session.add(user)
+		db.session.commit()
+		flash('Registration was successful!')
+		return redirect(url_for('login'))
+	else:
+		flash('Password is not complex enough.', 'error')
+		return redirect(url_for('register'))
 
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
@@ -83,6 +87,14 @@ def logout():
 def profile():
 	return render_template("profile.html", username = current_user.username)
 
+@app.route("/user_lifts", methods = ['GET', 'POST'])
+@login_required
+def user_lifts():
+	if request.method == 'GET':
+		return render_template("add_lift.html")
+	else:
+		pass
+
 @app.route("/rival")
 @login_required
 def rival():
@@ -109,6 +121,12 @@ def rival():
 def athletes():
 	athletes_page = Athletes.query.order_by(Athletes.id).paginate(page = 1, per_page=20)
 	return render_template("athletes.html", athletes=athletes_page.items)
+
+@app.route("/best_lifts")
+@login_required
+def best_lifts():
+	best_lifts_page = Athlete_lifts.query.order_by(Athlete_lifts.total_kg).paginate(page = 1, per_page = 20)
+	return render_template("athletes.html", best_lifts = best_lifts_page.items)
 
 @app.route("/meets")
 @login_required
