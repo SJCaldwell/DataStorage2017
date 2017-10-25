@@ -4,10 +4,38 @@
 <br>
 <br>
 <div class="container">
-  <form action="" method=post class="form-horizontal">
-    <h2>Athletes</h2>
-    {% for x in best_lifts %}
-    <li> {{ x.id }} , {{x.name}} , {{x.gender}} </li>
-  {% endfor %}
+  <h2>Athletes Table</h2>
+  <div class="table-responsive">          
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Lift ID</th>
+        <th>Athlete ID</th>
+        <th>Equipment</th>
+        <th>Age</th>
+        <th>Bodyweight (kg)</th>
+        <th>Bench (kg)</th>
+        <th>Squat (kg)</th>
+        <th>Deadlift (kg)</th>
+        <th>Total (kg)</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for x in best_lifts %}
+      <tr>
+        <td>{{ x.lift_id }}</td>
+        <td>{{ x.athlete_id }}</td>
+        <td>{{ x.equipment }}</td>
+        <td>{{ x.age }}</td>
+        <td>{{ x.bodyweight_kg }}</td>
+        <td>{{ x.bench_kg }}</td>
+        <td>{{ x.squat_kg }}</td>
+        <td>{{ x.deadlift_kg }}</td>
+        <td>{{ x.total_kg }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
 </div>
 {% endblock %}

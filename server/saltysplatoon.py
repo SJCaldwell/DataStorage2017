@@ -6,6 +6,8 @@ from models import *
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements
+from sqlalchemy import desc
+
 
 def grab_db_uri():
 	with open("../secret.config") as secrets_file:
@@ -15,7 +17,7 @@ def grab_db_uri():
 
 app = flask.Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = grab_db_uri()
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Examine results of this choice, currently just disabling the warning
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
@@ -44,7 +46,7 @@ def register():
 	registered_user = Users.query.filter_by(username=username).first()
 	if registered_user:
 		flash('Username was already taken. Please choose another!', 'error')
-		return redirect(url_for('register'))
+		return render_template('register.html', error = "Username already taken.")
 	if meets_password_complexity_requirements(request.form['password']):
 		user = Users(request.form['username'], request.form['password'], request.form['age'])
 		db.session.add(user)
@@ -52,8 +54,7 @@ def register():
 		flash('Registration was successful!')
 		return redirect(url_for('login'))
 	else:
-		flash('Password is not complex enough.', 'error')
-		return redirect(url_for('register'))
+		return render_template("register.html", error = "Password is not complex enough. Must have one special character, one number, and at least 8 characters.")
 
 @app.route("/login", methods = ['GET', 'POST'])
 def login():
@@ -64,21 +65,16 @@ def login():
 	hashed_pass = bcrypt.generate_password_hash(password).decode('utf-8')
 	registered_user = Users.query.filter_by(username=username).first()
 	if registered_user is None:
-		print("NO USER EXISTS")
-		flash('Username or password is invalid', 'error')
-		return redirect(url_for('login'))
-	if bcrypt.check_password_hash(registered_user.password, password): # returns True
+		return render_template('login.html', error = "Username or password is invalid")
+	if bcrypt.check_password_hash(registered_user.password, password):
 		login_user(registered_user)
-		flash('Logged in successfully')
 		return redirect(request.args.get('next') or url_for('greetings'))
-	flash("Username or password is invalid", 'error')
-	return redirect(url_for('login'))
+	return render_template('login.html', error = 'Username or password is invalid')
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('greetings'))
-
 
 @app.route("/profile")
 @login_required
@@ -123,8 +119,8 @@ def athletes():
 @app.route("/best_lifts")
 @login_required
 def best_lifts():
-	best_lifts_page = Athlete_lifts.query.order_by(Athlete_lifts.total_kg).paginate(page = 1, per_page = 20)
-	return render_template("athletes.html", best_lifts = best_lifts_page.items)
+	best_lifts_page = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
+	return render_template("best_lifts.html", best_lifts = best_lifts_page.items)
 
 @app.route("/meets")
 @login_required

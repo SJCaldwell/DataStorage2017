@@ -6,6 +6,12 @@
 <div class="container">
   <form action="" method=post class="form-horizontal">
     <h2>Signin to The Salty Splatoon </h2>
+    {% if error %}
+    <div class="alert alert-danger fade in">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Error!</strong> {{ error }}
+    </div>
+    {% endif %}
     <div class="control-group">
         <div class="controls">
           <input type="text" id="username" name="username" class="input-xlarge"

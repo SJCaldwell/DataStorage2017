@@ -3,11 +3,32 @@
 <br>
 <br>
 <br>
+
 <div class="container">
-  <form action="" method=post class="form-horizontal">
-    <h2>Meets</h2>
-    {% for x in meets %}
-    <li> {{ x.id }} , {{x.federation}} , {{x.path}} , {{x.date}} {{x.name}} </li>
-  {% endfor %}
+  <h2>Meets Table</h2>
+  <div class="table-responsive">          
+  <table class="table">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>Federation</th>
+        <th>Path</th>
+        <th>Date</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+    	{% for x in meets %}
+      <tr>
+        <td>{{ x.id }}</td>
+        <td>{{ x.federation }}</td>
+        <td>{{ x.path }}</td>
+        <td>{{ x.date }}</td>
+        <td>{{ x.name }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
 </div>
 {% endblock %}
