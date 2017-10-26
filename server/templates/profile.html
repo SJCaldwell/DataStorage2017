@@ -11,6 +11,20 @@
         <div class="controls">
           <p> Your username is {{username}}!</p>
         </div>
+    
+    {% if error %}
+    <div class="alert alert-danger fade in">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Error!</strong> {{ error }}
+    </div>
+    {% endif %}
+    
+    {% if success %}
+    <div class="alert alert-success fade in">
+    <a href="#" class = "close" data-dismiss="alert">&times;</a>
+  	<strong>Success!</strong> {{success}}
+	</div>
+    {% endif %}
     <h3>Add Lift</h3>
    <form action = "/" method=post>
   <div class="form-group">
