@@ -80,8 +80,9 @@ def logout():
 @app.route("/profile", methods = ['GET', 'POST'])
 @login_required
 def profile():
+	user_lifts = User_lifts.query.filter_by(user_id = current_user.id).order_by(User_lifts.date).all()
 	if request.method == 'GET':
-		return render_template("profile.html", username = current_user.username)
+		return render_template("profile.html", username = current_user.username, user_lifts = user_lifts )
 	else:
 		if request.form['squat'] and request.form['deadlift'] and request.form['bench'] and request.form['weight']:
 			squat = float(request.form['squat'])
@@ -99,10 +100,10 @@ def profile():
 			db.session.add(lift)
 			db.session.commit()
 			success = "lift added!"
-			return render_template("profile.html", username = current_user.username, success = success)
+			return render_template("profile.html", username = current_user.username, user_lifts = user_lifts ,success = success)
 		else:
 			error = "Please fill out all of the weights!"
-			return render_template("profile.html", username = current_user.username, error = error)
+			return render_template("profile.html", username = current_user.username, user_lifts = user_lifts, error = error)
 
 
 @app.route("/rival")

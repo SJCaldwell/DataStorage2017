@@ -51,7 +51,7 @@ class User_lifts(db.Model):
 	squat_kg = db.Column(db.Float)
 	deadlift_kg = db.Column(db.Float)
 	total_kg = db.Column(db.Float)
-	equipment = db.Column(db.Float)
+	equipment = db.Column(db.String(30))
 
 	def __repr__(self):
 		return('<User lifts %r' % self.user_id)
