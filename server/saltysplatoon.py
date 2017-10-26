@@ -7,6 +7,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements
 from sqlalchemy import desc
+import datetime
 
 
 def grab_db_uri():
@@ -92,7 +93,9 @@ def profile():
 				bench = pounds_to_kilos(bench)
 				deadlift = pounds_to_kilos(deadlift)
 				weight = pounds_to_kilos(weight)
-			lift = User_lifts(user_id = current_user.id, bodyweight_kg = weight, bench_kg = bench, squat_kg = squat, deadlift_kg = deadlift, total_kg = bench + squat + deadlift)
+			date = datetime.datetime.today()
+			date = str(date.year) + '-' + str(date.month) + '-' + str(date.day)
+			lift = User_lifts(user_id = current_user.id, date = date, bodyweight_kg = weight, bench_kg = bench, squat_kg = squat, deadlift_kg = deadlift, total_kg = bench + squat + deadlift)
 			db.session.add(lift)
 			db.session.commit()
 			success = "lift added!"
