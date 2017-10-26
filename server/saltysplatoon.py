@@ -76,18 +76,31 @@ def logout():
     logout_user()
     return redirect(url_for('greetings'))
 
-@app.route("/profile")
+@app.route("/profile", methods = ['GET', 'POST'])
 @login_required
 def profile():
-	return render_template("profile.html", username = current_user.username)
-
-@app.route("/user_lifts", methods = ['GET', 'POST'])
-@login_required
-def user_lifts():
 	if request.method == 'GET':
-		return render_template("add_lift.html")
+		return render_template("profile.html", username = current_user.username)
 	else:
-		pass
+		if request.form['squat'] and request.form['deadlift'] and request.form['bench'] and request.form['weight']:
+			squat = float(request.form['squat'])
+			bench = float(request.form['bench'])
+			deadlift = float(request.form['deadlift'])
+			weight = float(request.form['weight'])
+			if request.form['is_lbs'] == 'on':
+				squat = pounds_to_kilos(squat)
+				bench = pounds_to_kilos(bench)
+				deadlift = pounds_to_kilos(deadlift)
+				weight = pounds_to_kilos(weight)
+			lift = User_lifts(user_id = current_user.id, bodyweight_kg = weight, bench_kg = bench, squat_kg = squat, deadlift_kg = deadlift, total_kg = bench + squat + deadlift)
+			db.session.add(lift)
+			db.session.commit()
+			success = "lift added!"
+			return render_template("profile.html", username = current_user.username, success = success)
+		else:
+			error = "Please fill out all of the weights!"
+			return render_template("profile.html", username = current_user.username, error = error)
+
 
 @app.route("/rival")
 @login_required

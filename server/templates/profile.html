@@ -3,6 +3,7 @@
 <br>
 <br>
 <br>
+<script src="/js/profile.js"></script>
 <div class="container">
   <form action="" method=post class="form-horizontal">
     <h2>Profile For {{username}}</h2>
@@ -10,6 +11,29 @@
         <div class="controls">
           <p> Your username is {{username}}!</p>
         </div>
+    <h3>Add Lift</h3>
+   <form action = "/" method=post>
+  <div class="form-group">
+    <label for="squat">Squat</label>
+    <input type="squat" class="form-control" id="squat" name="squat">
+  </div>
+  <div class="form-group">
+    <label for="bench">Bench Press</label>
+    <input type="bench" class="form-control" id="bench" name="bench">
+  </div>
+  <div class="form-group">
+    <label for="deadlift">Deadlift</label>
+    <input type="deadlift" class="form-control" id="deadlift" name="deadlift">
+  </div>
+  <div class="form-group">
+    <label for="weight">Enter Weight</label>
+    <input type="weight" class="form-control" id="weight" name="weight">
+  </div>
+    <div class="checkbox">
+    <label><input type="checkbox" id="is_lbs" name="is_lbs">In Pounds?</label>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
     </div>
 </div>
-{% endblock %}ß
+{% endblock %}
