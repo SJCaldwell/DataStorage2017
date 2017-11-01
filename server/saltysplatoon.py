@@ -131,11 +131,11 @@ def athletes():
 	athletes_page = Athletes.query.order_by(Athletes.id).paginate(page = 1, per_page=20)
 	return render_template("athletes.html", athletes=athletes_page.items)
 
-@app.route("/best_lifts")
+@app.route("/lifts")
 @login_required
-def best_lifts():
+def lifts():
 	best_lifts_page = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
-	return render_template("best_lifts.html", best_lifts = best_lifts_page.items)
+	return render_template("lifts.html", best_lifts = best_lifts_page.items)
 
 @app.route("/meets")
 @login_required

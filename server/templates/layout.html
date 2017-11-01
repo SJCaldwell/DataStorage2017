@@ -27,7 +27,7 @@
           <!-- Put the other logged in specific stuff here -->
           <li> <a href="{{ url_for('athletes') }}">Athletes</a></li>
           <li> <a href="{{ url_for('meets') }}">Meets</a></li>
-          <li> <a href="{{ url_for('best_lifts') }}">Best Lifts</a></li>
+          <li> <a href="{{ url_for('lifts') }}">Lifts</a></li>
           <li> <a href="{{ url_for('profile') }}">{{ current_user.username }}</a></li>
           <li> <a href="{{ url_for('logout') }}">Logout</a></li>
         {% endif %}
