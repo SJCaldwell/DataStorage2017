@@ -143,8 +143,10 @@ def lifts():
 @app.route("/meets")
 @login_required
 def meets():
+	meets = Meets.query.distinct(Meets.country).all()
+	countries = [row.country for row in meets]
 	meets_page = Meets.query.order_by(Meets.id).paginate(page = 1, per_page = 20)
-	return render_template("meets.html", meets = meets_page.items)
+	return render_template("meets.html", meets = meets_page.items, countries = countries)
 
 if __name__ == "__main__":
 	app.debug = True

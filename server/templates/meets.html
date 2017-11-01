@@ -3,9 +3,32 @@
 <br>
 <br>
 <br>
-
 <div class="container">
   <h2>Meets Table</h2>
+  <br>
+
+  <form class = "margin-base-vertical">
+  <div class = "form-group">
+  <label for="name">Meet Name:</label>
+  <input type="text" class="form-control" id="name" name="meet_name">
+  </div>
+
+    <div class="form-group">
+      <label for="weightclass">Country</label>
+      <select class="form-control" id="country" name="country">
+          <option>All</option>
+          {% for x in countries %}
+          <option>{{ x }}</option>
+          {% endfor %}
+        </select>
+        </div>
+
+    <p class = "text-center">
+    <button type="submit" class="btn btn-success btn-log">Search</button>
+    </p>
+
+  </form>
+  <br>
   <div class="table-responsive">          
   <table class="table">
     <thead>
