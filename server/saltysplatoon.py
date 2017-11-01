@@ -134,6 +134,9 @@ def athletes():
 @app.route("/lifts")
 @login_required
 def lifts():
+	if request.args.get('gender'):
+		gender = request.args.get('gender')
+		print(gender)
 	best_lifts_page = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
 	return render_template("lifts.html", best_lifts = best_lifts_page.items)
 
