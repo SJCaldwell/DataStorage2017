@@ -20,10 +20,10 @@
                 <a class="navbar-brand" href="/">SaltySplatoon</a>
           </div>
             <ul class="nav navbar-nav navbar-right">
-          {% if session.username %}
+          {% if current_user.username %}
           <li><a href = "{{ url_for('greetings', username=session.username) }}">{{ session.username }}</a></li>
           {% endif %}
-          {% if not session.logged_in %}
+          {% if not current_user.username %}
           <li> <a href="{{ url_for('register') }}">Register</a></li>
           <li> <a href="{{ url_for('login') }}">Login</a></li>
           {% else %}
