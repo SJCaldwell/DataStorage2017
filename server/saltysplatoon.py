@@ -140,7 +140,6 @@ def best_lifts():
 @app.route("/meets")
 @login_required
 def meets():
-	page = re
 	meets_page = Meets.query.order_by(Meets.id).paginate(page = 1, per_page = 20)
 	return render_template("meets.html", meets = meets_page.items)
 
