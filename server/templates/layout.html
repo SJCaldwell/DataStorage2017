@@ -20,15 +20,16 @@
                 <a class="navbar-brand" href="/">SaltySplatoon</a>
           </div>
             <ul class="nav navbar-nav navbar-right">
-          {% if current_user.username %}
-          <li><a href = "{{ url_for('greetings', username=session.username) }}">{{ session.username }}</a></li>
-          {% endif %}
           {% if not current_user.username %}
           <li> <a href="{{ url_for('register') }}">Register</a></li>
           <li> <a href="{{ url_for('login') }}">Login</a></li>
           {% else %}
           <!-- Put the other logged in specific stuff here -->
-          <li> <a href="{{ url_for('greetings') }}">Logout</a></li>
+          <li> <a href="{{ url_for('athletes') }}">Athletes</a></li>
+          <li> <a href="{{ url_for('meets') }}">Meets</a></li>
+          <li> <a href="{{ url_for('best_lifts') }}">Best Lifts</a></li>
+          <li> <a href="{{ url_for('profile') }}">{{ current_user.username }}</a></li>
+          <li> <a href="{{ url_for('logout') }}">Logout</a></li>
         {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
