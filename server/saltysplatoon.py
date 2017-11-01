@@ -9,7 +9,6 @@ from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_
 from sqlalchemy import desc
 import datetime
 
-
 def grab_db_uri():
 	with open("../secret.config") as secrets_file:
 		secrets = json.load(secrets_file)
@@ -105,7 +104,6 @@ def profile():
 			error = "Please fill out all of the weights!"
 			return render_template("profile.html", username = current_user.username, user_lifts = user_lifts, error = error)
 
-
 @app.route("/rival")
 @login_required
 def rival():
@@ -142,6 +140,7 @@ def best_lifts():
 @app.route("/meets")
 @login_required
 def meets():
+	page = re
 	meets_page = Meets.query.order_by(Meets.id).paginate(page = 1, per_page = 20)
 	return render_template("meets.html", meets = meets_page.items)
 

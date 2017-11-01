@@ -5,6 +5,57 @@
 <br>
 <div class="container">
   <h2>Athletes Table</h2>
+  <br>
+
+<form class = "margin-base-vertical">
+
+  <div class = "form-group">
+    <label for="gender">Gender</label>
+    <select class="form-control" id="gender" name="gender">
+      <option>All</option>
+      <option>Women</option>
+      <option>Men</option>
+      <option>Nonbinary</option>
+    </select>
+  </div>
+
+  <br>
+
+  <div class = "form-group">
+  <label for="name">Name:</label>
+  <input type="text" class="form-control" id="name" name="athlete_name">
+  </div>
+
+  <br>
+
+  <label for="weight">Weight:</label>
+  <input type="number" min="0" max="1900" step="5" id="weight" name="weight">
+
+  <br>
+  <br>
+
+      <div class="form-group">
+      <label for="weightclass">Weight Class</label>
+      <select class="form-control" id="weightclass" name="weightclass">
+          <option>All</option>
+          <option>140</option>
+          <option>120+</option>
+          <option>75+</option>
+          <option>145</option>
+        </select>
+        </div>
+
+    <p class = "text-center">
+    <button type="submit" class="btn btn-success btn-log">Search</button>
+    </p>
+
+  </form>
+
+
+  <br>
+
+    <h2>Results</h2>
+    <br>
   <div class="table-responsive">          
   <table class="table">
     <thead>
