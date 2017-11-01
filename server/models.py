@@ -56,6 +56,10 @@ class User_lifts(db.Model):
 	def __repr__(self):
 		return('<User lifts %r' % self.user_id)
 
+	def serialize(self):
+		return {'date' : self.date,
+				'total_kg' : self.total_kg }
+
 class Users(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	username = db.Column(db.String(20)) 

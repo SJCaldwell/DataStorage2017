@@ -1,5 +1,5 @@
 import flask
-from flask import render_template, request, flash, session, url_for, redirect
+from flask import render_template, request, flash, session, url_for, redirect, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
 from models import *
@@ -103,6 +103,14 @@ def profile():
 		else:
 			error = "Please fill out all of the weights!"
 			return render_template("profile.html", username = current_user.username, user_lifts = user_lifts, error = error)
+
+
+@app.route("/user_lifts")
+@login_required
+def user_lifts():
+	records = User_lifts.query.filter_by(user_id = current_user.id).order_by(User_lifts.date).all()
+	records = [lift.serialize() for lift in records]
+	return jsonify(records)
 
 @app.route("/rival")
 @login_required
