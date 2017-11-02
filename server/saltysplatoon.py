@@ -129,9 +129,9 @@ def grab_strength_distribution():
 		squat = pounds_to_kilos(squat)
 		bench = pounds_to_kilos(bench)
 	total = float(deadlift) + float(squat) + float(bench)
-	athlete_lifts = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).all()
+	athlete_lifts = Athlete_lifts.query.order_by(desc(Athlete_lifts.total_kg)).all()
 	lifts = [float(lift.total_kg) for lift in athlete_lifts]
-	print (str(find_rank(lifts, total)) + " out of " + str(len(lifts)))
+	print(lifts[1:20])
 	return jsonify(find_rank(lifts, total))
 
 

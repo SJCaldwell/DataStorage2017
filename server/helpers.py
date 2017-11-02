@@ -22,4 +22,8 @@ def meets_password_complexity_requirements(password):
 		return False
 
 def find_rank(aList, val):
-	return bisect(aList, val)
+	for i in range(len(aList)):
+		if val > aList[i]:
+			rank = i
+			return i
+	return i
