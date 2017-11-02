@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import *
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements
+from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements, find_rank
 from sqlalchemy import desc
 import datetime
 
@@ -112,13 +112,13 @@ def user_lifts():
 	records = [lift.serialize() for lift in records]
 	return jsonify(records)
 
-@app.route("/rival")
+@app.route("/strength_distribution", methods = ['GET', 'POST'])
 @login_required
-def rival():
+def grab_strength_distribution():
 	if request.method == 'GET':
-		return render_template("rival.html")
+		return redirect(url_for('login'))
 	bw = request.form['weight']
-	is_lbs = request.form['is_lbs']
+	is_lbs = False
 	deadlift = request.form['deadlift']
 	squat = request.form['squat']
 	bench = request.form['bench']
@@ -128,10 +128,13 @@ def rival():
 		deadlift = pounds_to_kilos(deadlift)
 		squat = pounds_to_kilos(squat)
 		bench = pounds_to_kilos(bench)
-	#processing rivals
-	if is_lbs:
-		#convert back to lbs
-		bw = kilos_to_pounds(bw)
+	total = float(deadlift) + float(squat) + float(bench)
+	athlete_lifts = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).all()
+	lifts = [float(lift.total_kg) for lift in athlete_lifts]
+	print (str(find_rank(lifts, total)) + " out of " + str(len(lifts)))
+	return jsonify(find_rank(lifts, total))
+
+
 
 @app.route("/athletes")
 @login_required

@@ -23,7 +23,7 @@
         </p>
   <p align = "center"><small>Where do you stack up?</small></p>
 
-  <form class = "margin-base-vertical">
+  <form class = "margin-base-vertical" method = "post" action = "/strength_distribution">
     <p class="input-group">
         <span class="input-group-addon"><span class = "icon-envelope"></span></span>
         <input type "text" class = "form-control input-lg" name="weight" placeholder = "Enter Weight"/>
@@ -39,10 +39,10 @@
         </p>
         <p class="input-group">
         <span class="input-group-addon"><span class = "icon-envelope"></span></span>
-        <input type "text" class = "form-control input-lg" name="deadlift" placeholder = "Enter Benchpress"/>
+        <input type "text" class = "form-control input-lg" name="bench" placeholder = "Enter Benchpress"/>
     </p>
     <label for="gender">Enter Gender:</label>
-    <select class="form-control" id="gender">
+    <select class="form-control" id="gender" name="gender">
     <option>Female</option>
     <option>Male</option>
     <option>Nonbinary</option>

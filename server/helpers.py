@@ -1,4 +1,5 @@
 import string
+from bisect import bisect
 
 def pounds_to_kilos(pounds):
 	return pounds/2.1
@@ -19,3 +20,6 @@ def meets_password_complexity_requirements(password):
 		return True
 	else:
 		return False
+
+def find_rank(aList, val):
+	return bisect(aList, val)
