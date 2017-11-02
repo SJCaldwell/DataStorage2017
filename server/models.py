@@ -40,6 +40,10 @@ class Athlete_lifts(db.Model):
 	def __repr__(self):
 		return('<Athlete lift %d>' % self.lift_id)
 
+	def serialize(self):
+		return {'lift_id' : self.lift_id,
+				'total_kg' : self.total_kg }
+
 
 class User_lifts(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
