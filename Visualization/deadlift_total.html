@@ -1,0 +1,37 @@
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Sample Visualization</title>
+        <body></body>
+<style>
+.chart {
+
+}
+
+.main text {
+    font: 10px sans-serif;  
+}
+
+.axis line, .axis path {
+    shape-rendering: crispEdges;
+    stroke: black;
+    fill: none;
+}
+
+circle {
+    fill: steelblue;
+}
+
+</style>
+        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script>
+      </head>
+      <body>
+        <div class='content'>
+          <!-- /the chart goes here -->
+        </div>
+        <h2>Deadlift lift(y) as Percentage of Total Lift(x)</h2>
+        <script type="text/javascript" src="deadlift_total.js"></script>
+        <h3>Y axis is percentage of total lift that is an athlete's deadlift</h3>
+        <h3>X axis is the total lift of each athlete in Kg</h3>
+      </body>
+    </html>
