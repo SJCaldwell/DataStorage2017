@@ -164,4 +164,4 @@ def meets():
 if __name__ == "__main__":
 	app.debug = True
 	app.secret_key = os.environ['salty_appsecret']
-	app.run()
+	app.run(host = "0.0.0.0")

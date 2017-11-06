@@ -1,1 +1,1 @@
-web: gunicorn saltysplatoon.wsgi
+web: gunicorn salty:application 
