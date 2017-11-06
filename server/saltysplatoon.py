@@ -208,7 +208,8 @@ def profile():
 			bench = float(request.form['bench'])
 			deadlift = float(request.form['deadlift'])
 			weight = float(request.form['weight'])
-			if request.form['is_lbs'] == 'on':
+			is_lbs = request.form.get("is_lbs")
+			if is_lbs in request.form:
 				squat = pounds_to_kilos(squat)
 				bench = pounds_to_kilos(bench)
 				deadlift = pounds_to_kilos(deadlift)
