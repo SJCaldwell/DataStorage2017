@@ -252,10 +252,8 @@ def grab_strength_distribution():
 	total = float(deadlift) + float(squat) + float(bench)
 	athlete_lifts = Athlete_lifts.query.order_by(desc(Athlete_lifts.total_kg)).all()
 	lifts = [float(lift.total_kg) for lift in athlete_lifts]
-	print(lifts[1:20])
-	return jsonify(find_rank(lifts, total))
-
-
+	user_data = {'lifts': lifts[1:20], 'user_rank' : find_rank(lifts[1:20], total)}	
+	return jsonify(user_data)
 
 @app.route("/athletes")
 @login_required

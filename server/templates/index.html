@@ -23,7 +23,7 @@
         </p>
   <p align = "center"><small>Where do you stack up?</small></p>
 
-  <form class = "margin-base-vertical" method = "post" action = "/strength_distribution">
+  <form class = "margin-base-vertical" id="strength_stats">
     <p class="input-group">
         <span class="input-group-addon"><span class = "icon-envelope"></span></span>
         <input type "text" class = "form-control input-lg" name="weight" placeholder = "Enter Weight"/>
@@ -54,6 +54,11 @@
     </p>
     </span>
     </form>
+            <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script>
+        <div class='content'>
+          <!-- /the chart goes here -->
+        </div>
+        <script type="text/javascript" src= {{ url_for('static', filename= 'js/strength_distribution.js') }}></script>
 
 </div> <!-- main content -->
 </div> <!-- row -->
