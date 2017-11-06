@@ -1,0 +1,27 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[packages]
+bcrypt = "*"
+cffi = "*"
+click = "*"
+Flask = "*"
+Flask-Bcrypt = "*"
+Flask-Login = "*"
+Flask-SQLAlchemy = "*"
+itsdangerous = "*"
+Jinja2 = "*"
+MarkupSafe = "*"
+numpy = "*"
+pandas = "*"
+psycopg2 = "*"
+pycparser = "*"
+python-dateutil = "*"
+pytz = "*"
+six = "*"
+SQLAlchemy = "*"
+Werkzeug = "*"
+
+[requires]
+python_version = "3.6"
