@@ -2,13 +2,13 @@ import flask
 from flask import render_template, request, flash, session, url_for, redirect, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
-from models import *
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements, find_rank
 from sqlalchemy import desc
 import datetime
 import os
+import string
+from bisect import bisect
 
 def grab_db_uri():
 	return ('postgresql+psycopg2://' + os.environ['salty_user'] + ':' + os.environ['salty_password'] + '@' + os.environ['salty_host'] + '/' + os.environ['salty_dbname'])
@@ -21,6 +21,127 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+from saltysplatoon import db, bcrypt
+
+
+class Meets(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	federation = db.Column(db.Text)
+	path = db.Column(db.Text) 
+	date = db.Column(db.Date)
+	country = db.Column(db.String(20))
+	state = db.Column(db.String(10))
+	town = db.Column(db.Text)
+	name = db.Column(db.Text)
+
+	def __repr__(self):
+		return('<Meet %r>' % self.name)
+
+class Athletes(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	name = db.Column(db.String(50))
+	gender = db.Column(db.String(8))
+
+	def __repr__(self):
+		return('<Athlete %r>' % self.name)
+
+class Athlete_lifts(db.Model):
+	lift_id = db.Column(db.Integer, primary_key = True)
+	meet_id = db.Column(db.Integer, db.ForeignKey('meets.id'))
+	athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'))
+	equipment = db.Column(db.String(15))
+	age = db.Column(db.Float) 
+	division = db.Column(db.String(50))
+	bodyweight_kg = db.Column(db.Float)
+	weightclass_kg = db.Column(db.String(32))
+	bench_kg = db.Column(db.Float)
+	squat_kg = db.Column(db.Float)
+	deadlift_kg = db.Column(db.Float)
+	total_kg = db.Column(db.Float)
+	description = db.Column(db.Text)
+
+	def __repr__(self):
+		return('<Athlete lift %d>' % self.lift_id)
+
+	def serialize(self):
+		return {'lift_id' : self.lift_id,
+				'total_kg' : self.total_kg }
+
+
+class User_lifts(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	age = db.Column(db.Integer)
+	date = db.Column(db.Date)
+	bodyweight_kg = db.Column(db.Float)
+	bench_kg = db.Column(db.Float)
+	squat_kg = db.Column(db.Float)
+	deadlift_kg = db.Column(db.Float)
+	total_kg = db.Column(db.Float)
+	equipment = db.Column(db.String(30))
+
+	def __repr__(self):
+		return('<User lifts %r' % self.user_id)
+
+	def serialize(self):
+		return {'date' : self.date,
+				'total_kg' : self.total_kg }
+
+class Users(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
+	username = db.Column(db.String(20)) 
+	password = db.Column(db.String(256))
+	age = db.Column(db.Integer)
+	current_rival = db.Column(db.Integer, db.ForeignKey('athletes.id')) 
+	beaten_rivals = db.Column(db.Integer)
+
+	def __init__(self, username, password, age):
+		self.username = username
+		self.password = bcrypt.generate_password_hash(password).decode('utf-8')
+		self.age = age
+	
+	def __repr__(self):
+		return ('<User %r>' % self.username)
+
+	def is_authenticated(self):
+		return True
+
+	def is_active(self):
+		return True
+
+	def is_anonymous(self):
+		return False
+
+	def get_id(self):
+		return self.id
+
+def pounds_to_kilos(pounds):
+	return pounds/2.1
+
+def kilos_to_pounds(kilos):
+	return kilos * 2.1
+
+def meets_password_complexity_requirements(password):
+	has_num = False
+	for char in password:
+		if char.isdigit():
+			has_num = True
+	has_special = False
+	for char in password:
+		if char in string.punctuation:
+			has_special = True
+	if has_num and has_special and len(password) >= 8:
+		return True
+	else:
+		return False
+
+def find_rank(aList, val):
+	for i in range(len(aList)):
+		if val > aList[i]:
+			rank = i
+			return i
+	return i
 
 @login_manager.user_loader
 def load_user(id):
