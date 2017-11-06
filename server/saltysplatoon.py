@@ -8,12 +8,10 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 from helpers import pounds_to_kilos, kilos_to_pounds, meets_password_complexity_requirements, find_rank
 from sqlalchemy import desc
 import datetime
+import os
 
 def grab_db_uri():
-	with open("../secret.config") as secrets_file:
-		secrets = json.load(secrets_file)
-		db_conf = secrets['database']
-		return ('postgresql+psycopg2://' + db_conf['user'] + ':' + db_conf['password'] + '@' + db_conf['host'] + '/' + db_conf['dbname'])
+	return ('postgresql+psycopg2://' + os.environ['salty_user'] + ':' + os.environ['salty_password'] + '@' + os.environ['salty_host'] + '/' + os.environ['salty_dbname'])
 
 app = flask.Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = grab_db_uri()
@@ -165,7 +163,5 @@ def meets():
 
 if __name__ == "__main__":
 	app.debug = True
-	with open("../secret.config") as secrets_file:
-		secrets = json.load(secrets_file)
-		app.secret_key = secrets['app_secret']
+	app.secret_key = os.environ['salty_appsecret']
 	app.run()
