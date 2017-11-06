@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block body%}
+<style>
+.chart {
+
+}
+
+.main text {
+    font: 10px sans-serif;	
+}
+
+.axis line, .axis path {
+    shape-rendering: crispEdges;
+    stroke: black;
+    fill: none;
+}
+
+circle {
+    fill: steelblue;
+}
+
+</style>
+        <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script>
+        <br>
+        <br>
+        <div class='content'>
+          <!-- /the chart goes here -->
+        </div>
+        <h2>Bodyweight vs Total Lifts in (Kg)</h2>
+        <script type="text/javascript" src= {{ url_for('static', filename= 'js/bodyweight_total.js') }}></script>
+      <h3>Y axis is total lift weight that is an athlete can lift in Kg</h3>
+      <h3>X axis is the athelte's bodyweight in Kg</h3>
+
+{% endblock %}

@@ -32,6 +32,10 @@ def load_user(id):
 def greetings():
 	return render_template("index.html")
 
+@app.route("/visualization")
+def visualization():
+	return render_template("bodyweight_total.html")
+
 @app.route("/grab_rivals", methods = ['POST'])
 def grab_rivals():
 	age = request.form['age']
