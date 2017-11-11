@@ -258,6 +258,10 @@ def grab_strength_distribution():
 @app.route("/athletes")
 @login_required
 def athletes():
+	athlete_name = request.args.get("athlete_name")
+	if athlete_name:
+		athletes_page = Athletes.query.filter(Athletes.name.startswith(athlete_name)).paginate(page = 1, per_page = 20)
+		return render_template("athletes.html", athletes = athletes_page.items)
 	athletes_page = Athletes.query.order_by(Athletes.id).paginate(page = 1, per_page=20)
 	return render_template("athletes.html", athletes=athletes_page.items)
 
@@ -266,7 +270,12 @@ def athletes():
 def lifts():
 	if request.args.get('gender'):
 		gender = request.args.get('gender')
-		print(gender)
+	weight = request.args.get("weight")
+	if weight:
+		lower_bound = float(weight) - 10
+		upper_bound = float(weight) + 10
+		best_lifts_page = Athlete_lifts.query.filter(Athlete_lifts.bodyweight_kg > lower_bound).filter(Athlete_lifts.bodyweight_kg < upper_bound).order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
+		return render_template("lifts.html", best_lifts = best_lifts_page.items)
 	best_lifts_page = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
 	return render_template("lifts.html", best_lifts = best_lifts_page.items)
 
@@ -275,6 +284,11 @@ def lifts():
 def meets():
 	meets = Meets.query.distinct(Meets.country).all()
 	countries = [row.country for row in meets]
+	meet_name = request.args.get("meet_name")
+	country = request.args.get("country")
+	if meet_name and country:
+		meets_page = Meets.query.filter(Meets.name.startswith(meet_name)).paginate(page = 1, per_page = 20)
+		return render_template("meets.html", meets = meets_page.items, countries = countries)
 	meets_page = Meets.query.order_by(Meets.id).paginate(page = 1, per_page = 20)
 	return render_template("meets.html", meets = meets_page.items, countries = countries)
 
