@@ -258,12 +258,22 @@ def grab_strength_distribution():
 @app.route("/athletes")
 @login_required
 def athletes():
+	athlete_page = Athletes.query
 	athlete_name = request.args.get("athlete_name")
+	gender = request.args.get("gender")
+	if gender:
+		print("whoops")
+		if gender == "Men":
+			gender = "M"
+		elif gender == "Female":
+			gender = "F"
+		else:
+			gender = ""
+		athlete_page = athlete_page.filter(Athletes.gender.startswith(gender))
 	if athlete_name:
-		athletes_page = Athletes.query.filter(Athletes.name.startswith(athlete_name)).paginate(page = 1, per_page = 20)
-		return render_template("athletes.html", athletes = athletes_page.items)
-	athletes_page = Athletes.query.order_by(Athletes.id).paginate(page = 1, per_page=20)
-	return render_template("athletes.html", athletes=athletes_page.items)
+		athlete_page = athlete_page.filter(Athletes.name.startswith(athlete_name))
+	athlete_page = athlete_page.order_by(Athletes.id).paginate(page = 1, per_page=20)
+	return render_template("athletes.html", athletes=athlete_page.items)
 
 @app.route("/lifts")
 @login_required
