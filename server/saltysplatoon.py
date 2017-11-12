@@ -262,7 +262,6 @@ def athletes():
 	athlete_name = request.args.get("athlete_name")
 	gender = request.args.get("gender")
 	if gender:
-		print("whoops")
 		if gender == "Men":
 			gender = "M"
 		elif gender == "Female":
@@ -278,15 +277,19 @@ def athletes():
 @app.route("/lifts")
 @login_required
 def lifts():
-	if request.args.get('gender'):
-		gender = request.args.get('gender')
+	best_lifts_page = Athlete_lifts.query
 	weight = request.args.get("weight")
+	age = request.args.get("age")
 	if weight:
 		lower_bound = float(weight) - 10
 		upper_bound = float(weight) + 10
-		best_lifts_page = Athlete_lifts.query.filter(Athlete_lifts.bodyweight_kg > lower_bound).filter(Athlete_lifts.bodyweight_kg < upper_bound).order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
-		return render_template("lifts.html", best_lifts = best_lifts_page.items)
-	best_lifts_page = Athlete_lifts.query.filter('total_kg != 0').order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
+		best_lifts_page = best_lifts_page.filter(Athlete_lifts.bodyweight_kg > lower_bound).filter(Athlete_lifts.bodyweight_kg < upper_bound)
+	if age:
+		age = request.args.get("age")
+		lower_bound = float(age) - 5
+		upper_bound = float(age) + 5
+		best_lifts_page = best_lifts_page.filter(Athlete_lifts.age > lower_bound).filter(Athlete_lifts.age < upper_bound)
+	best_lifts_page = best_lifts_page.order_by(desc(Athlete_lifts.total_kg)).paginate(page = 1, per_page = 20)
 	return render_template("lifts.html", best_lifts = best_lifts_page.items)
 
 @app.route("/meets")
@@ -296,10 +299,14 @@ def meets():
 	countries = [row.country for row in meets]
 	meet_name = request.args.get("meet_name")
 	country = request.args.get("country")
-	if meet_name and country:
-		meets_page = Meets.query.filter(Meets.name.startswith(meet_name)).paginate(page = 1, per_page = 20)
-		return render_template("meets.html", meets = meets_page.items, countries = countries)
-	meets_page = Meets.query.order_by(Meets.id).paginate(page = 1, per_page = 20)
+	if country == "All":
+		country = None
+	meets_page = Meets.query
+	if meet_name:
+		meets_page = meets_page.filter(Meets.name.startswith(meet_name))
+	if country:
+		meets_page = meets_page.filter(Meets.country.startswith(country))
+	meets_page = meets_page.order_by(Meets.id).paginate(page = 1, per_page = 20)
 	return render_template("meets.html", meets = meets_page.items, countries = countries)
 
 if __name__ == "__main__":
