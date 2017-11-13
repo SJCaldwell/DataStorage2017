@@ -1,3 +1,8 @@
+var pageInitialized = false;
+$( document ).ready(function() {
+if (pageInitialized)
+	return
+pageInitialized = true;
 i = 1
 counts = []
 totals = []
@@ -27,8 +32,12 @@ var datasets = [
   }
 ]
 
+console.log(lift_data)
+
+
 var ctx = document.getElementById('lift_canvas').getContext('2d');
 
 var xy = new Xy(ctx);
-
+console.log("gonna draw")
 xy.draw(datasets);
+});
