@@ -152,6 +152,13 @@ def greetings():
 def visualization():
 	return render_template("bodyweight_total.html")
 
+@app.route("/bench")
+def bench_vis():
+	return render_template("bodyweight_bench.html")
+@app.route("/deadlift")
+def deadlift_vis():
+	return render_template("deadlift_total.html")
+
 @app.route("/grab_rivals", methods = ['POST'])
 def grab_rivals():
 	age = request.form['age']

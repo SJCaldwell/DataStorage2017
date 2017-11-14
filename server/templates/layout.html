@@ -28,8 +28,8 @@
     <span class="caret"></span></a>
     <ul class="dropdown-menu">
       <li><a href="{{ url_for('visualization') }}">Bodyweight Total</a></li>
-      <li><a href="#">Bench Total</a></li>
-      <li><a href="#">Deadlift Total</a></li> 
+      <li><a href="{{ url_for('bench_vis') }}">Bench Total</a></li>
+      <li><a href="{{ url_for('deadlift_vis') }}">Deadlift Total</a></li> 
     </ul>
   </li>
           {% else %}
