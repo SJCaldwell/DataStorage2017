@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="description" content="How tough are ya?">
     <meta name="author" content="Shane Caldwell">
+      <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="/js/boostrap.js"></script>
-	<script
-  		src="https://code.jquery.com/jquery-3.2.1.js"
-  		integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-  		crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   	<link rel="shortcut icon" href="/img/favicon.ico">
  </head>
     <body style = "height:1500px">
@@ -23,6 +23,15 @@
           {% if not current_user.username %}
           <li> <a href="{{ url_for('register') }}">Register</a></li>
           <li> <a href="{{ url_for('login') }}">Login</a></li>
+           <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Trends
+    <span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li><a href="{{ url_for('visualization') }}">Bodyweight Total</a></li>
+      <li><a href="#">Bench Total</a></li>
+      <li><a href="#">Deadlift Total</a></li> 
+    </ul>
+  </li>
           {% else %}
           <!-- Put the other logged in specific stuff here -->
           <li> <a href="{{ url_for('athletes') }}">Athletes</a></li>
