@@ -19,17 +19,17 @@ $(document).ready(function() {
 				var num_sampled = user_data['num_sampled']
 				var percentile = (rank/num_sampled) * 100;
 				console.log("percentile is " + percentile);
-				for (i = 0; i < percentile; i++) { 
+				for (i = 0; i < percentile + 1; i++) { 
     				var bar = document.getElementById('strengthbar')
     				bar.style.width = String(i) + "%"
 				}
 				var message = document.getElementById('score')
 				if (percentile < 25)
-					message.innerText = "Total Weenie!"
+					message.innerText = "Weenie!"
 				if (percentile >= 25 && percentile < 50)
-					message.innerText = "Get back in the gym!"
+					message.innerText = "Meh."
 				if (percentile >=50 && percentile < 75)
-					message.innerText = "You're pretty tough!"
+					message.innerText = "Not bad!"
 				if (percentile >= 75)
 					message.innerText = "SON OF ODIN!"
 			}

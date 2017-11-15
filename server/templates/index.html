@@ -1,80 +1,64 @@
 {% extends "layout.html" %}
 {% block body %}
 <div class="container-fluid">
-  {% if session.username %}
-  <br>
-  <br>
-  <br>
-  <h3 align = "center">What's new?</h3>
-</div>
- {% include "add_lifts.html" %}
-{% else %}
-<!DOCTYPE html>
-<html>
-<br>
-<br>
-<br>
   <div class = "container">
       <div class = "row">
           <div class = "col-md-6 col-md-offset-3">
-  <h1 class = "margin-base-vertical" align = "center">How tough are ya?</h1>
-        <p align = 'center'>
-          Compare your strength to thousands of real powerlifters.
-        </p>
-  <p align = "center"><small>Where do you stack up?</small></p>
+            <h1 class = "margin-base-vertical" align = "center">How tough are ya?</h1>
+              <p align = 'center'>Compare your strength to thousands of real powerlifters.</p>
+              <p align = "center"><small>Where do you stack up?</small></p>
 
-  <form class = "margin-base-vertical" id="strength_stats">
-    <p class="input-group">
-        <span class="input-group-addon"><span class = "icon-envelope"></span></span>
-        <input type "text" class = "form-control input-lg" name="weight" placeholder = "Enter Weight"/>
-        <span class="input-group-addon"><span class = "icon-envelope"></span></span>
-        <input type "text" class = "form-control input-lg" name="age" placeholder = "Enter Age"/>
-    </p>
-        <p class="input-group">
-        <span class="input-group-addon"><span class = "icon-envelope"></span></span>
-        <input type "text" class = "form-control input-lg" name="deadlift" placeholder = "Enter Deadlift"/>
-        <span class="input-group-addon"><span class = "icon-envelope"></span></span>
-        <input type "text" class = "form-control input-lg" name="squat" placeholder = "Enter Squat"/>
-    </p>
-        </p>
-        <p class="input-group">
-        <span class="input-group-addon"><span class = "icon-envelope"></span></span>
-        <input type "text" class = "form-control input-lg" name="bench" placeholder = "Enter Benchpress"/>
-    </p>
-    <label for="gender">Enter Gender:</label>
-    <select class="form-control" id="gender" name="gender">
-    <option>Female</option>
-    <option>Male</option>
-    <option>Nonbinary</option>
-    <option>Rather Not Say</option>
-  </select>
-  <br>
-                <div id = "message">
-                <h3 id = "score"></h3>
-                </div>
-
-                <div class="progress vertical" id = "strengthbar_container" style="visibility:hidden">
-  <div class="progress-bar progress-bar-info" id = "strengthbar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-  </div>  
-</div>
-
-    <p class = "text-center">
-    <button type="button" id="strength_button" class="btn btn-success btn-log">How Strong am I?</button>
-    </p>
-    </span>
-    </form>    
-    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.v2.js"></script>
-        <div class='content'>
-          <!-- /the chart goes here -->
-        </div>
-        <script type="text/javascript" src= {{ url_for('static', filename= 'js/strength_distribution.js') }}></script>
+              <form class = "margin-base-vertical" id="strength_stats">
+            <p class="input-group">
+                <span class="input-group-addon"><span class = "icon-envelope"></span></span>
+                <input type "text" class = "form-control input-lg" name="weight" placeholder = "Enter Weight"/>
+                <span class="input-group-addon"><span class = "icon-envelope"></span></span>
+                <input type "text" class = "form-control input-lg" name="age" placeholder = "Enter Age"/>
+            </p>
+            <p class="input-group">
+              <span class="input-group-addon"><span class = "icon-envelope"></span></span>
+              <input type "text" class = "form-control input-lg" name="deadlift" placeholder = "Enter Deadlift"/>
+              <span class="input-group-addon"><span class = "icon-envelope"></span></span>
+              <input type "text" class = "form-control input-lg" name="squat" placeholder = "Enter Squat"/>
+            </p>
+            <p class="input-group">
+              <span class="input-group-addon"><span class = "icon-envelope"></span></span>
+              <input type "text" class = "form-control input-lg" name="bench" placeholder = "Enter Benchpress"/>
+            </p>
+            <label for="gender">Enter Gender:</label>
+              <select class="form-control" id="gender" name="gender">
+                <option>Female</option>
+                <option>Male</option>
+                <option>Nonbinary</option>
+                <option>Rather Not Say</option>
+                </select>
+              <p class = "text-center">
+                  <button type="button" id="strength_button" class="btn btn-success btn-log">How Strong am I?</button>
+              </p>
+                </span>
+             </form>    
+            <script type="text/javascript" src= {{ url_for('static', filename= 'js/strength_distribution.js') }}></script>
           <link rel="stylesheet" href="{{ url_for('static', filename = 'css/progress.css') }} ">
-        <div class="container">
-    
-</div> <!-- main content -->
 </div> <!-- row -->
 </div> <!-- container -->
+</div>
+</div>
+
+      <!--- Garbage for Javascript --> 
+      <div class = "container">
+              <div class = "row">
+
+                                  <div id = "message">
+                      <h3 id = "score"></h3>
+                  </div>
+
+                <div class="progress vertical" id = "strengthbar_container" style="visibility:hidden">
+                    <div class="progress-bar progress-bar-info" id = "strengthbar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                    </div>  
+                </div>
+
+
+              </div>
+      </div>
 </html>
-  {% endif %}
- </div>
 {% endblock %}

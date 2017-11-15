@@ -148,10 +148,6 @@ def load_user(id):
 def greetings():
 	return render_template("index.html")
 
-@app.route("/pls")
-def ugh():
-	return render_template("new_index.html")
-
 @app.route("/visualization")
 def visualization():
 	return render_template("bodyweight_total.html")
@@ -246,10 +242,8 @@ def user_lifts():
 
 @app.route("/strength_distribution", methods = ['GET', 'POST'])
 def grab_strength_distribution():
-	print("GRABBING DISTRO")
 	if request.method == 'GET':
 		return redirect(url_for('login'))
-	print("IT'S A POST")
 	bw = request.form['weight']
 	is_lbs = False
 	deadlift = request.form['deadlift']
@@ -265,8 +259,6 @@ def grab_strength_distribution():
 	athlete_lifts = Athlete_lifts.query.order_by(func.random()).limit(1000)
 	lifts = [float(lift.total_kg) for lift in athlete_lifts]
 	lifts.sort(reverse = True)
-	print (lifts)
-	print (total)
 	user_data = {'num_sampled': 1000, 'user_rank' : find_rank(lifts, total)}
 	return jsonify(user_data)
 
