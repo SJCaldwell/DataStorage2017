@@ -31,7 +31,7 @@ $(document).ready(function() {
 				if (percentile >=50 && percentile < 75)
 					message.innerText = "Not bad!"
 				if (percentile >= 75)
-					message.innerText = "ODIN SPAWN"
+					message.innerText = "TOP TIER"
 			}
 		});
 	})
