@@ -4,7 +4,7 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from sqlalchemy import desc
+from sqlalchemy import desc, func
 import datetime
 import os
 import string
@@ -137,7 +137,7 @@ def find_rank(aList, val):
 	for i in range(len(aList)):
 		if val > aList[i]:
 			rank = i
-			return i
+			return (len(aList) - i)
 	return i
 
 @login_manager.user_loader
@@ -147,6 +147,10 @@ def load_user(id):
 @app.route("/")
 def greetings():
 	return render_template("index.html")
+
+@app.route("/pls")
+def ugh():
+	return render_template("new_index.html")
 
 @app.route("/visualization")
 def visualization():
@@ -241,10 +245,11 @@ def user_lifts():
 	return jsonify(records)
 
 @app.route("/strength_distribution", methods = ['GET', 'POST'])
-@login_required
 def grab_strength_distribution():
+	print("GRABBING DISTRO")
 	if request.method == 'GET':
 		return redirect(url_for('login'))
+	print("IT'S A POST")
 	bw = request.form['weight']
 	is_lbs = False
 	deadlift = request.form['deadlift']
@@ -257,9 +262,12 @@ def grab_strength_distribution():
 		squat = pounds_to_kilos(squat)
 		bench = pounds_to_kilos(bench)
 	total = float(deadlift) + float(squat) + float(bench)
-	athlete_lifts = Athlete_lifts.query.order_by(desc(Athlete_lifts.total_kg)).all()
+	athlete_lifts = Athlete_lifts.query.order_by(func.random()).limit(1000)
 	lifts = [float(lift.total_kg) for lift in athlete_lifts]
-	user_data = {'lifts': lifts[1:20], 'user_rank' : find_rank(lifts[1:20], total)}	
+	lifts.sort(reverse = True)
+	print (lifts)
+	print (total)
+	user_data = {'num_sampled': 1000, 'user_rank' : find_rank(lifts, total)}
 	return jsonify(user_data)
 
 @app.route("/athletes")
