@@ -319,7 +319,47 @@ def get_all_lifts():
 		for record in records:
 			json.dump(record, outfile)
 			outfile.write('\n')
-	return 'got em'
+	return 'got em athlete_lifts'
+
+@app.route('/get_all_users')
+def get_all_users():
+	users = Users.query.all()
+	records = [user.serialize() for user in users]
+	with open('users.json' 'w') as outfile:
+		for record in records:
+			json.dump(record, outfile)
+			outfile.write('\n')
+	return 'got em users'
+
+@app.route('/get_all_meets')
+def get_all_meets():
+	meets = Meets.query.all()
+	records = [meet.serialize() for meet in meets]
+	with open('meets.json', 'w') as outfile:
+		for record in records:
+			json.dump(record, outfile)
+			outfile.write('\n')
+	return 'got em meets'
+
+@app.route('/get_all_user_lifts')
+def get_all_user_lifts():
+	user_lifts = User_lifts.query.all()
+	records = [user_lift.serialize() for meet in user_lifts]
+	with open('user_lifts.json', 'w') as outfile:
+		for record in records:
+			json.dump(record, outfile)
+			outfile.write('\n')
+	return ('got em user lifts')
+
+@app.route('/get_all_athletes')
+def get_all_athletes():
+	athletes = Athletes.query.all()
+	records = [athlete.serialize() for athlete in athletes]
+	with open('athletes.json', 'w') as outfile:
+		for record in records:
+			json.dump(record, outfile)
+			outfile.write('\n')
+	return ('got em athletes')
 
 @app.route("/athletes")
 @login_required
