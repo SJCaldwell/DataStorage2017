@@ -40,7 +40,7 @@ class Meets(db.Model):
 		'id': self.id,
 		'federation': self.federation,
 		'path': self.path,
-		'date': self.date,
+		'date': str(self.date),
 		'country': self.country,
 		'state': self.state,
 		'town': self.town,
@@ -115,7 +115,7 @@ class User_lifts(db.Model):
 		return {'id' : self.id,
 				'user_id' : self.user_id,
 				'age' : self.age,
-				'date' : self.date,
+				'date' : str(self.date),
 				'bodyweight_kg': self.bodyweight_kg,
 				'bench_kg' : self.bench_kg,
 				'squat_kg' : self.squat_kg,
@@ -325,7 +325,7 @@ def get_all_lifts():
 def get_all_users():
 	users = Users.query.all()
 	records = [user.serialize() for user in users]
-	with open('users.json' 'w') as outfile:
+	with open('users.json','w') as outfile:
 		for record in records:
 			json.dump(record, outfile)
 			outfile.write('\n')
@@ -344,7 +344,7 @@ def get_all_meets():
 @app.route('/get_all_user_lifts')
 def get_all_user_lifts():
 	user_lifts = User_lifts.query.all()
-	records = [user_lift.serialize() for meet in user_lifts]
+	records = [user_lift.serialize() for user_lift in user_lifts]
 	with open('user_lifts.json', 'w') as outfile:
 		for record in records:
 			json.dump(record, outfile)
