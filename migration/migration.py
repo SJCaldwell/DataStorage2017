@@ -35,6 +35,18 @@ class Meets(db.Model):
 	def __repr__(self):
 		return('<Meet %r>' % self.name)
 
+	def serialize(self):
+		return{
+		'id': self.id,
+		'federation': self.federation,
+		'path': self.path,
+		'date': self.date,
+		'country': self.country,
+		'state': self.state,
+		'town': self.town,
+		'name': self.name
+		}
+
 class Athletes(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(50))
@@ -42,6 +54,13 @@ class Athletes(db.Model):
 
 	def __repr__(self):
 		return('<Athlete %r>' % self.name)
+
+	def serialize(self):
+		return {
+		'id': self.id,
+		'name': self.name,
+		'gender': self.gender
+		}
 
 class Athlete_lifts(db.Model):
 	lift_id = db.Column(db.Integer, primary_key = True)
@@ -93,8 +112,17 @@ class User_lifts(db.Model):
 		return('<User lifts %r' % self.user_id)
 
 	def serialize(self):
-		return {'date' : self.date,
-				'total_kg' : self.total_kg }
+		return {'id' : self.id,
+				'user_id' : self.user_id,
+				'age' : self.age,
+				'date' : self.date,
+				'bodyweight_kg': self.bodyweight_kg,
+				'bench_kg' : self.bench_kg,
+				'squat_kg' : self.squat_kg,
+				'deadlift_kg' : self.deadlift_kg,
+				'total_kg' : self.total_kg,
+				'equipment': self.equipment
+				 }
 
 class Users(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -108,9 +136,18 @@ class Users(db.Model):
 		self.username = username
 		self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 		self.age = age
-	
+
 	def __repr__(self):
 		return ('<User %r>' % self.username)
+
+	def serialize(self):
+		return {'id': self.id,
+				'username': self.username,
+				'password': self.password,
+				'age' : self.age,
+				'current_rival' : self.current_rival,
+				'beaten_rivals' : self.beaten_rivals
+		}
 
 	def is_authenticated(self):
 		return True
@@ -282,9 +319,7 @@ def get_all_lifts():
 		for record in records:
 			json.dump(record, outfile)
 			outfile.write('\n')
-	return Response(records, 
-            mimetype='application/json',
-            headers={'Content-Disposition':'attachment;filename=athlete_lifts.json'})
+	return 'got em'
 
 @app.route("/athletes")
 @login_required
