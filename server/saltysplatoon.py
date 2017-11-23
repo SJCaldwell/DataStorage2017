@@ -9,20 +9,21 @@ import datetime
 import os
 import string
 from bisect import bisect
+from flask_mongoengine import MongoEngine
 
 def grab_db_uri():
-	return ('postgresql+psycopg2://' + os.environ['salty_user'] + ':' + os.environ['salty_password'] + '@' + os.environ['salty_host'] + '/' + os.environ['salty_dbname'])
+	return ('mongodb://' + os.environ['mongo_user'] + ':' + os.environ['mongo_pass'] + '@ds117316.mlab.com:17316/heroku_18ghdm6d')
 
 app = flask.Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = grab_db_uri()
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+app.config['MONGODB_SETTINGS'] = {'db' : 'heroku_18ghdm6d', 'host':grab_db_uri()}
+
+db = MongoEngine(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-class Meets(db.Model):
+class Meets(db.Document):
 	id = db.Column(db.Integer, primary_key = True)
 	federation = db.Column(db.Text)
 	path = db.Column(db.Text) 
@@ -35,7 +36,7 @@ class Meets(db.Model):
 	def __repr__(self):
 		return('<Meet %r>' % self.name)
 
-class Athletes(db.Model):
+class Athletes(db.Document):
 	id = db.Column(db.Integer, primary_key = True)
 	name = db.Column(db.String(50))
 	gender = db.Column(db.String(8))
@@ -43,7 +44,7 @@ class Athletes(db.Model):
 	def __repr__(self):
 		return('<Athlete %r>' % self.name)
 
-class Athlete_lifts(db.Model):
+class Athlete_lifts(db.Document):
 	lift_id = db.Column(db.Integer, primary_key = True)
 	meet_id = db.Column(db.Integer, db.ForeignKey('meets.id'))
 	athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'))
@@ -66,7 +67,7 @@ class Athlete_lifts(db.Model):
 				'total_kg' : self.total_kg }
 
 
-class User_lifts(db.Model):
+class User_lifts(db.Document):
 	id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 	age = db.Column(db.Integer)
@@ -85,7 +86,7 @@ class User_lifts(db.Model):
 		return {'date' : self.date,
 				'total_kg' : self.total_kg }
 
-class Users(db.Model):
+class Users(db.Document):
 	id = db.Column(db.Integer, primary_key = True)
 	username = db.Column(db.String(20)) 
 	password = db.Column(db.String(256))
@@ -250,6 +251,7 @@ def grab_strength_distribution():
 	squat = request.form['squat']
 	bench = request.form['bench']
 	age = request.form['age']
+	gender = request.form['gender']
 	if is_lbs:
 		bw = pounds_to_kilos(bw)
 		deadlift = pounds_to_kilos(deadlift)
@@ -261,6 +263,12 @@ def grab_strength_distribution():
 	lifts.sort(reverse = True)
 	user_data = {'num_sampled': 1000, 'user_rank' : find_rank(lifts, total)}
 	return jsonify(user_data)
+
+@app.route("/get_all_lifts")
+def get_all_lifts():
+	athletes_lifts = Athlete_lifts.query.all()
+	records = [lift.serialize() for lift in athletes_lifts]
+	return jsonify(records)
 
 @app.route("/athletes")
 @login_required
