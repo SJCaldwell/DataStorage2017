@@ -24,40 +24,40 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 class Meets(db.Document):
-	id = db.Column(db.Integer, primary_key = True)
-	federation = db.Column(db.Text)
-	path = db.Column(db.Text) 
-	date = db.Column(db.Date)
-	country = db.Column(db.String(20))
-	state = db.Column(db.String(10))
-	town = db.Column(db.Text)
-	name = db.Column(db.Text)
+	id = db.IntField()
+	federation = db.StringField(required = True)
+	path = db.StringField(required = True) 
+	date = db.DateTimeField()
+	country = db.StringField(required = True)
+	state = db.StringField(required = True)
+	town = db.StringField(required = True)
+	name = db.StringField(required = True)
 
 	def __repr__(self):
 		return('<Meet %r>' % self.name)
 
 class Athletes(db.Document):
-	id = db.Column(db.Integer, primary_key = True)
-	name = db.Column(db.String(50))
-	gender = db.Column(db.String(8))
+	id = db.IntField()
+	name = db.StringField(max_length = 50)
+	gender = db.StringField(max_length = 8)
 
 	def __repr__(self):
 		return('<Athlete %r>' % self.name)
 
 class Athlete_lifts(db.Document):
-	lift_id = db.Column(db.Integer, primary_key = True)
-	meet_id = db.Column(db.Integer, db.ForeignKey('meets.id'))
-	athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.id'))
-	equipment = db.Column(db.String(15))
-	age = db.Column(db.Float) 
-	division = db.Column(db.String(50))
-	bodyweight_kg = db.Column(db.Float)
-	weightclass_kg = db.Column(db.String(32))
-	bench_kg = db.Column(db.Float)
-	squat_kg = db.Column(db.Float)
-	deadlift_kg = db.Column(db.Float)
-	total_kg = db.Column(db.Float)
-	description = db.Column(db.Text)
+	lift_id = db.IntField()
+	meet_id = db.IntField()
+	athlete_id = db.IntField()
+	equipment = db.StringField(max_length = 15)
+	age = db.FloatField() 
+	division = db.StringField(max_length = 50)
+	bodyweight_kg = db.FloatField()
+	weightclass_kg = db.StringField(max_length = 32)
+	bench_kg = db.FloatField()
+	squat_kg = db.FloatField()
+	deadlift_kg = db.FloatField()
+	total_kg = db.FloatField()
+	description = db.FloatField()
 
 	def __repr__(self):
 		return('<Athlete lift %d>' % self.lift_id)
@@ -68,16 +68,16 @@ class Athlete_lifts(db.Document):
 
 
 class User_lifts(db.Document):
-	id = db.Column(db.Integer, primary_key=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-	age = db.Column(db.Integer)
-	date = db.Column(db.Date)
-	bodyweight_kg = db.Column(db.Float)
-	bench_kg = db.Column(db.Float)
-	squat_kg = db.Column(db.Float)
-	deadlift_kg = db.Column(db.Float)
-	total_kg = db.Column(db.Float)
-	equipment = db.Column(db.String(30))
+	id = db.IntField()
+	user_id = db.IntField()
+	age = db.IntField()
+	date = db.DateTimeField()
+	bodyweight_kg = db.FloatField()
+	bench_kg = db.FloatField()
+	squat_kg = db.FloatField()
+	deadlift_kg = db.FloatField()
+	total_kg = db.FloatField()
+	equipment = db.StringField(max_length = 30)
 
 	def __repr__(self):
 		return('<User lifts %r' % self.user_id)
@@ -87,12 +87,12 @@ class User_lifts(db.Document):
 				'total_kg' : self.total_kg }
 
 class Users(db.Document):
-	id = db.Column(db.Integer, primary_key = True)
-	username = db.Column(db.String(20)) 
-	password = db.Column(db.String(256))
-	age = db.Column(db.Integer)
-	current_rival = db.Column(db.Integer, db.ForeignKey('athletes.id')) 
-	beaten_rivals = db.Column(db.Integer)
+	id = db.IntField()
+	username = db.StringField(max_length = 50) 
+	password = db.StringField(max_length=256)
+	age = db.IntField()
+	current_rival = db.IntField()
+	beaten_rivals = db.IntField()
 
 	def __init__(self, username, password, age):
 		self.username = username
