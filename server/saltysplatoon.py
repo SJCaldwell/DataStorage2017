@@ -89,15 +89,11 @@ class User_lifts(db.Document):
 class Users(db.Document):
 	id = db.IntField()
 	username = db.StringField(max_length = 50) 
-	password = db.StringField(max_length=256)
+	password = db.StringField(max_length = 256)
 	age = db.IntField()
 	current_rival = db.IntField()
 	beaten_rivals = db.IntField()
-
-	def __init__(self, username, password, age):
-		self.username = username
-		self.password = bcrypt.generate_password_hash(password).decode('utf-8')
-		self.age = age
+	meta = {'strict': False}
 	
 	def __repr__(self):
 		return ('<User %r>' % self.username)
@@ -143,7 +139,7 @@ def find_rank(aList, val):
 
 @login_manager.user_loader
 def load_user(id):
-    return Users.query.get(int(id))
+    return Users.objects.filter(**{"id" : int(id)}).first()
 
 @app.route("/")
 def greetings():
@@ -191,7 +187,7 @@ def login():
 	username = request.form['username']
 	password = request.form['password']
 	hashed_pass = bcrypt.generate_password_hash(password).decode('utf-8')
-	registered_user = Users.query.filter_by(username=username).first()
+	registered_user = Users.objects.filter(**{"username" : username}).first()
 	if registered_user is None:
 		return render_template('login.html', error = "Username or password is invalid")
 	if bcrypt.check_password_hash(registered_user.password, password):
