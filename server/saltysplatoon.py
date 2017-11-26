@@ -72,7 +72,7 @@ class Athlete_lifts(db.Document):
 
 class User_lifts(db.Document):
 	id = db.IntField()
-	user_id = db.IntField()
+	user_id = db.StringField(max_length = 50) 
 	age = db.IntField()
 	date = db.DateTimeField()
 	bodyweight_kg = db.FloatField()
@@ -207,7 +207,7 @@ def logout():
 @app.route("/profile", methods = ['GET', 'POST'])
 @login_required
 def profile():
-	user_lifts = User_lifts.query.filter_by(user_id = current_user.id).order_by(User_lifts.date).all()
+	user_lifts = User_lifts.objects.filter(**{"user_id" : current_user.id}).all()
 	if request.method == 'GET':
 		return render_template("profile.html", username = current_user.username, user_lifts = user_lifts )
 	else:
@@ -224,9 +224,7 @@ def profile():
 				weight = pounds_to_kilos(weight)
 			date = datetime.datetime.today()
 			date = str(date.year) + '-' + str(date.month) + '-' + str(date.day)
-			lift = User_lifts(user_id = current_user.id, date = date, bodyweight_kg = weight, bench_kg = bench, squat_kg = squat, deadlift_kg = deadlift, total_kg = bench + squat + deadlift)
-			db.session.add(lift)
-			db.session.commit()
+			User_lifts(user_id = current_user.id, date = date, bodyweight_kg = weight, bench_kg = bench, squat_kg = squat, deadlift_kg = deadlift, total_kg = bench + squat + deadlift).save()
 			success = "lift added!"
 			return render_template("profile.html", username = current_user.username, user_lifts = user_lifts ,success = success)
 		else:
