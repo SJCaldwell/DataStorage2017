@@ -32,6 +32,7 @@ class Meets(db.Document):
 	state = db.StringField(required = True)
 	town = db.StringField(required = True)
 	name = db.StringField(required = True)
+	meta = {'strict': False}
 
 	def __repr__(self):
 		return('<Meet %r>' % self.name)
@@ -40,6 +41,7 @@ class Athletes(db.Document):
 	id = db.IntField()
 	name = db.StringField(max_length = 50)
 	gender = db.StringField(max_length = 8)
+	meta = {'strict': False}
 
 	def __repr__(self):
 		return('<Athlete %r>' % self.name)
@@ -58,6 +60,7 @@ class Athlete_lifts(db.Document):
 	deadlift_kg = db.FloatField()
 	total_kg = db.FloatField()
 	description = db.FloatField()
+	meta = {'strict': False}
 
 	def __repr__(self):
 		return('<Athlete lift %d>' % self.lift_id)
@@ -78,6 +81,7 @@ class User_lifts(db.Document):
 	deadlift_kg = db.FloatField()
 	total_kg = db.FloatField()
 	equipment = db.StringField(max_length = 30)
+	meta = {'strict': False}
 
 	def __repr__(self):
 		return('<User lifts %r' % self.user_id)
@@ -108,7 +112,7 @@ class Users(db.Document):
 		return False
 
 	def get_id(self):
-		return self.id
+		return self.username
 
 def pounds_to_kilos(pounds):
 	return pounds/2.1
@@ -139,7 +143,7 @@ def find_rank(aList, val):
 
 @login_manager.user_loader
 def load_user(id):
-    return Users.objects.filter(**{"id" : int(id)}).first()
+    return Users.objects.filter(**{"username" : id}).first()
 
 @app.route("/")
 def greetings():
@@ -167,14 +171,13 @@ def register():
 	if request.method == 'GET':
 		return render_template("register.html")
 	username = request.form['username']
-	registered_user = Users.query.filter_by(username=username).first()
+	registered_user = Users.objects.filter(**{"username" : username}).first()
 	if registered_user:
 		flash('Username was already taken. Please choose another!', 'error')
 		return render_template('register.html', error = "Username already taken.")
 	if meets_password_complexity_requirements(request.form['password']):
-		user = Users(request.form['username'], request.form['password'], request.form['age'])
-		db.session.add(user)
-		db.session.commit()
+		hashed_password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+		Users(username= username, password = hashed_password ,age = request.form['age'],current_rival = None, beaten_rivals = None).save()
 		flash('Registration was successful!')
 		return redirect(url_for('login'))
 	else:
@@ -191,6 +194,7 @@ def login():
 	if registered_user is None:
 		return render_template('login.html', error = "Username or password is invalid")
 	if bcrypt.check_password_hash(registered_user.password, password):
+		print("Trying to login user")
 		login_user(registered_user)
 		return redirect(request.args.get('next') or url_for('greetings'))
 	return render_template('login.html', error = 'Username or password is invalid')
