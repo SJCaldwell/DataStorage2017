@@ -292,16 +292,21 @@ def athletes():
 @app.route("/lifts")
 @login_required
 def lifts():
+	best_lifts = Athlete_lifts.objects
 	weight = request.args.get("weight")
 	age = request.args.get("age")
 	if weight:
 		lower_bound = float(weight) - 10
 		upper_bound = float(weight) + 10
+		best_lifts = best_lifts.filter(**{"bodyweight_kg__gt" : lower_bound})
+		best_lifts = best_lifts.filter(**{"bodyweight_kg__lt": upper_bound})
 	if age:
 		age = request.args.get("age")
 		lower_bound = float(age) - 5
 		upper_bound = float(age) + 5
-	best_lifts = Athlete_lifts.objects.order_by('-total_kg').limit(20)
+		best_lifts = best_lifts.filter(**{"age__gt" : lower_bound})
+		best_lifts = best_lifts.filter(**{"age__lt" : upper_bound})
+	best_lifts = best_lifts.order_by('-total_kg').limit(20)
 	return render_template("lifts.html", best_lifts = best_lifts)
 
 @app.route("/meets")
