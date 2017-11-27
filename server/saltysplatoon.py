@@ -196,7 +196,6 @@ def login():
 	if registered_user is None:
 		return render_template('login.html', error = "Username or password is invalid")
 	if bcrypt.check_password_hash(registered_user.password, password):
-		print("Trying to login user")
 		login_user(registered_user)
 		return redirect(request.args.get('next') or url_for('greetings'))
 	return render_template('login.html', error = 'Username or password is invalid')
@@ -284,10 +283,8 @@ def athletes():
 			gender = "F"
 		else:
 			gender = ""
-		#__exact
 		athletes = athletes.filter(**{"gender__startswith": gender})
 	if athlete_name:
-		#__icontains
 		athletes = athletes.filter(**{"name__icontains":athlete_name})
 	athletes = athletes.order_by('id').limit(20)
 	return render_template("athletes.html", athletes=athletes)
