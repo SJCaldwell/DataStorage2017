@@ -308,19 +308,17 @@ def lifts():
 @app.route("/meets")
 @login_required
 def meets():
-	meets = Meets.query.distinct(Meets.country).all()
-	countries = [row.country for row in meets]
+	countries = Meets.objects.distinct('country')
 	meet_name = request.args.get("meet_name")
 	country = request.args.get("country")
 	if country == "All":
 		country = None
-	meets_page = Meets.query
 	if meet_name:
 		meets_page = meets_page.filter(Meets.name.startswith(meet_name))
 	if country:
 		meets_page = meets_page.filter(Meets.country.startswith(country))
-	meets_page = meets_page.order_by(Meets.id).paginate(page = 1, per_page = 20)
-	return render_template("meets.html", meets = meets_page.items, countries = countries)
+	meets = Meets.objects.order_by('id').limit(20)
+	return render_template("meets.html", meets = meets, countries = countries)
 
 if __name__ == "__main__":
 	app.debug = True
