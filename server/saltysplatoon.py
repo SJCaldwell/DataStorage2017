@@ -271,7 +271,6 @@ def get_all_lifts():
 @app.route("/athletes")
 @login_required
 def athletes():
-	athlete_page = Athletes.query
 	athlete_name = request.args.get("athlete_name")
 	gender = request.args.get("gender")
 	if gender:
@@ -284,8 +283,8 @@ def athletes():
 		athlete_page = athlete_page.filter(Athletes.gender.startswith(gender))
 	if athlete_name:
 		athlete_page = athlete_page.filter(Athletes.name.startswith(athlete_name))
-	athlete_page = athlete_page.order_by(Athletes.id).paginate(page = 1, per_page=20)
-	return render_template("athletes.html", athletes=athlete_page.items)
+	athletes = Athletes.objects.order_by('id').limit(20)
+	return render_template("athletes.html", athletes=athletes)
 
 @app.route("/lifts")
 @login_required
