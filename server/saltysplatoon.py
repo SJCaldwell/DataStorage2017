@@ -315,13 +315,14 @@ def meets():
 	countries = Meets.objects.distinct('country')
 	meet_name = request.args.get("meet_name")
 	country = request.args.get("country")
+	meets = Meets.objects
 	if country == "All":
 		country = None
 	if meet_name:
-		meets_page = meets_page.filter(Meets.name.startswith(meet_name))
+		meets = meets.filter(**{"name__icontains" : meet_name})
 	if country:
-		meets_page = meets_page.filter(Meets.country.startswith(country))
-	meets = Meets.objects.order_by('id').limit(20)
+		meets = meets.filter(**{"country__exact" : country})
+	meets = meets.order_by('id').limit(20)
 	return render_template("meets.html", meets = meets, countries = countries)
 
 if __name__ == "__main__":
