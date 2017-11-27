@@ -274,6 +274,7 @@ def get_all_lifts():
 @app.route("/athletes")
 @login_required
 def athletes():
+	athletes = Athletes.objects
 	athlete_name = request.args.get("athlete_name")
 	gender = request.args.get("gender")
 	if gender:
@@ -283,10 +284,12 @@ def athletes():
 			gender = "F"
 		else:
 			gender = ""
-		athlete_page = athlete_page.filter(Athletes.gender.startswith(gender))
+		#__exact
+		athletes = athletes.filter(**{"gender__startswith": gender})
 	if athlete_name:
-		athlete_page = athlete_page.filter(Athletes.name.startswith(athlete_name))
-	athletes = Athletes.objects.order_by('id').limit(20)
+		#__icontains
+		athletes = athletes.filter(**{"name__icontains":athlete_name})
+	athletes = athletes.order_by('id').limit(20)
 	return render_template("athletes.html", athletes=athletes)
 
 @app.route("/lifts")
