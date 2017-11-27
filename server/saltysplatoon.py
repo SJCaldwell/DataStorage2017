@@ -10,6 +10,7 @@ import os
 import string
 from bisect import bisect
 from flask_mongoengine import MongoEngine
+import random
 
 def grab_db_uri():
 	return ('mongodb://' + os.environ['mongo_user'] + ':' + os.environ['mongo_pass'] + '@ds117316.mlab.com:17316/heroku_18ghdm6d')
@@ -138,8 +139,9 @@ def find_rank(aList, val):
 	for i in range(len(aList)):
 		if val > aList[i]:
 			rank = i
-			return (len(aList) - i)
-	return i
+			return (len(aList) - rank)
+	#means you're last
+	return (0)
 
 @login_manager.user_loader
 def load_user(id):
@@ -256,10 +258,11 @@ def grab_strength_distribution():
 		squat = pounds_to_kilos(squat)
 		bench = pounds_to_kilos(bench)
 	total = float(deadlift) + float(squat) + float(bench)
-	athlete_lifts = Athlete_lifts.query.order_by(func.random()).limit(1000)
+	athlete_lifts = Athlete_lifts.objects.order_by('-total_kg').limit(10000)
 	lifts = [float(lift.total_kg) for lift in athlete_lifts]
-	lifts.sort(reverse = True)
-	user_data = {'num_sampled': 1000, 'user_rank' : find_rank(lifts, total)}
+	sample_lifts = random.sample(lifts, 1000)
+	sample_lifts.sort(reverse= True)
+	user_data = {'num_sampled': 1000, 'user_rank' : find_rank(sample_lifts, total)}
 	return jsonify(user_data)
 
 @app.route("/get_all_lifts")
