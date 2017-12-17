@@ -12,11 +12,11 @@ from bisect import bisect
 from flask_mongoengine import MongoEngine
 import random
 
-def grab_db_uri():
+def get_db_uri():
 	return ('mongodb://' + os.environ['mongo_user'] + ':' + os.environ['mongo_pass'] + '@ds117316.mlab.com:17316/heroku_18ghdm6d')
 
 app = flask.Flask(__name__)
-app.config['MONGODB_SETTINGS'] = {'db' : 'heroku_18ghdm6d', 'host':grab_db_uri()}
+app.config['MONGODB_SETTINGS'] = {'db' : 'heroku_18ghdm6d', 'host':get_db_uri()}
 
 db = MongoEngine(app)
 bcrypt = Bcrypt(app)
