@@ -116,9 +116,11 @@ class Users(db.Document):
 		return self.username
 
 def pounds_to_kilos(pounds):
+	"""Converts weight in pounds to kilos."""
 	return pounds/2.1
 
 def kilos_to_pounds(kilos):
+	"""Converts weight in kilos to pounds."""
 	return kilos * 2.1
 
 def password_meets_complexity_requirements(password):
@@ -178,6 +180,7 @@ def load_user(id):
 
 @app.route("/")
 def greetings():
+	"""Returns index.html"""
 	return render_template("index.html")
 
 @app.route("/visualization")
