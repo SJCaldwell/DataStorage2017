@@ -121,19 +121,42 @@ def pounds_to_kilos(pounds):
 def kilos_to_pounds(kilos):
 	return kilos * 2.1
 
-def meets_password_complexity_requirements(password):
-	has_num = False
-	for char in password:
+def password_meets_complexity_requirements(password):
+	"""Returns true if password meets complexity requirements,
+	and false otherwise.
+
+	Keyword arguments:
+	password -- the password submitted by the user.
+	"""
+	if string_has_number(password) and string_has_special_character(password) and \
+	   string_has_required_length(password):
+	   return True
+	return False
+
+def string_has_number(aString):
+	"""Checks a string for number, returns True if it has one"""
+	for char in aString:
 		if char.isdigit():
-			has_num = True
-	has_special = False
-	for char in password:
+			return True
+	return False
+
+def string_has_special_character(aString):
+	"""Checks a string for a special character, returns True if it has one"""
+	for char in aString:
 		if char in string.punctuation:
-			has_special = True
-	if has_num and has_special and len(password) >= 8:
+			return True
+	return False
+
+def string_has_required_length(aString, required_length = 8):
+	"""Checks if string has required length, returns True if it does
+
+	Keyword arguments: 
+	aString -- any string
+	required_length -- Required length of line (default 8)
+	"""
+	if len(aString) >= required_length:
 		return True
-	else:
-		return False
+	return False
 
 def find_weight_rank(weightList, user_weight):
 	"""Returns user's lift's place in total weights
@@ -183,7 +206,7 @@ def register():
 	if registered_user:
 		flash('Username was already taken. Please choose another!', 'error')
 		return render_template('register.html', error = "Username already taken.")
-	if meets_password_complexity_requirements(request.form['password']):
+	if password_meets_complexity_requirements(request.form['password']):
 		hashed_password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
 		Users(username= username, password = hashed_password ,age = request.form['age'],current_rival = None, beaten_rivals = None).save()
 		flash('Registration was successful!')
