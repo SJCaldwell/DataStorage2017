@@ -135,13 +135,19 @@ def meets_password_complexity_requirements(password):
 	else:
 		return False
 
-def find_rank(aList, val):
-	for i in range(len(aList)):
-		if val > aList[i]:
-			rank = i
-			return (len(aList) - rank)
-	#means you're last
-	return (0)
+def find_weight_rank(weightList, user_weight):
+	"""Returns user's lift's place in total weights
+
+	Keyword arguments:
+	weightList -- a list of total weights lifted by athletes
+	user_weight -- the total submitted by the user
+	"""
+	rank = 0
+	for i in range(len(weightList)):
+		if user_weight > weightList[i]:
+			rank = len(weightList) - rank
+			return (rank)
+	return (rank)
 
 @login_manager.user_loader
 def load_user(id):
@@ -261,7 +267,7 @@ def grab_strength_distribution():
 	lifts = [float(lift.total_kg) for lift in athlete_lifts]
 	sample_lifts = random.sample(lifts, 1000)
 	sample_lifts.sort(reverse= True)
-	user_data = {'num_sampled': 1000, 'user_rank' : find_rank(sample_lifts, total)}
+	user_data = {'num_sampled': 1000, 'user_rank' : find_weight_rank(sample_lifts, total)}
 	return jsonify(user_data)
 
 @app.route("/get_all_lifts")
